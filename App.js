@@ -1,9 +1,10 @@
 import React from "react";
+
 import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
 
 import { useFonts } from "expo-font";
 
-import Routes from "./routes";
+import Routes from "./src/routes";
 import LogoPictures from "./assets/logo.png";
 
 export default function App() {
@@ -12,7 +13,11 @@ export default function App() {
   });
 
   if (fontsLoaded) {
-    return <Routes />;
+    return (
+      <>
+        <Routes />
+      </>
+    );
   } else {
     return (
       <View style={[styles.container, styles.horizontal]}>

@@ -3,8 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
 //Screens
-import HomePage from "../../pages/home";
-import LoginScreen from "./loginScreen";
+import Home from "../../pages/home";
+import About from "./aboutScreen";
+import ProfileScreen from "./users/profileScreen";
 
 const Tab = createBottomTabNavigator();
 export default function MainScreen() {
@@ -13,9 +14,11 @@ export default function MainScreen() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let icon;
-          if (route.name === "Home") {
-            icon = focused ? "home" : "home-outline";
-          } else if (route.name === "Login") {
+          if (route.name === "Map") {
+            icon = focused ? "map" : "map-outline";
+          } else if (route.name === "Shop") {
+            icon = focused ? "ios-cart" : "cart-outline";
+          } else if (route.name === "Profile") {
             icon = focused ? "ios-people-sharp" : "ios-people-outline";
           }
           return <Ionicons name={icon} size={30} color={color} />;
@@ -35,8 +38,9 @@ export default function MainScreen() {
         },
       }}
     >
-      <Tab.Screen name="Home" component={HomePage} />
-      <Tab.Screen name="Login" component={LoginScreen} />
+      <Tab.Screen name="Map" component={Home} />
+      <Tab.Screen name="Shop" component={About} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 }

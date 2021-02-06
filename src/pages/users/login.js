@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { Input, Button } from "react-native-elements";
 
-import backgroundLogo from "../../assets/pictures/home/backgroundTitle.png";
+import backgroundLogo from "../../../assets/pictures/home/backgroundTitle.png";
 
 const Login = ({ navigation }) => {
   return (

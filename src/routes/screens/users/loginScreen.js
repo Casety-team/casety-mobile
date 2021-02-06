@@ -2,8 +2,8 @@ import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 //Screen
-import Header from "./shared/header";
-import LoginPage from "../../pages/users/login";
+import Header from "../shared/header";
+import LoginPage from "../../../pages/users/login";
 
 const Stack = createStackNavigator();
 
