@@ -1,15 +1,21 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, ScrollView } from "react-native";
 import { Input, Button } from "react-native-elements";
-
-import backgroundLogo from "../../../assets/pictures/home/backgroundTitle.png";
+import backgroundLogo from "../../../assets/logo.png";
 
 const Register = ({ navigation }) => {
   return (
-    <View>
-      <Image source={backgroundLogo} style={{ width: "auto", height: "50%" }} />
+    <ScrollView>
+      <Image
+        source={backgroundLogo}
+        style={{ width: "auto", height: "100%" }}
+      />
       <View
-        style={{ paddingLeft: "10%", paddingRight: "10%", marginTop: "10%" }}
+        style={{
+          paddingLeft: "10%",
+          paddingRight: "10%",
+          marginTop: "10%",
+        }}
       >
         <Input style={styles.input} placeholder="Firstname" />
         <Input style={styles.input} placeholder="Lastname" />
@@ -28,12 +34,11 @@ const Register = ({ navigation }) => {
           }}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {},
   button: {
     marginTop: "5%",
     borderRadius: 30,

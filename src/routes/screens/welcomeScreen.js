@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 //Screen
-import WelcomePage from "../../pages/welcome";
+import WelcomePage from "../../pages/welcome/welcome";
 import LoginPage from "../../pages/users/login";
 import RegisterPage from "../../pages/users/register";
 

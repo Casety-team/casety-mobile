@@ -16,7 +16,7 @@ class Home extends Component {
   }
 
   fetchMarkerData() {
-    fetch("http://192.168.1.44:4545/api/locations/")
+    fetch("http://192.168.1.87:4545/api/locations/")
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({

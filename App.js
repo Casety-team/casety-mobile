@@ -1,10 +1,10 @@
 import React from "react";
+import { Provider } from "react-redux";
+import Store from "./Store";
+import Routes from "./src/routes";
 
 import { View, Image, ActivityIndicator, StyleSheet } from "react-native";
-
 import { useFonts } from "expo-font";
-
-import Routes from "./src/routes";
 import LogoPictures from "./assets/logo.png";
 
 export default function App() {
@@ -14,9 +14,9 @@ export default function App() {
 
   if (fontsLoaded) {
     return (
-      <>
+      <Provider store={Store}>
         <Routes />
-      </>
+      </Provider>
     );
   } else {
     return (
