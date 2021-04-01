@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet, ScrollView } from "react-native";
 import { Input, Button } from "react-native-elements";
-import backgroundLogo from "../../../assets/logo.png";
+import backgroundLogo from "../../../assets/dark_logo.png";
 
 const Register = ({ navigation }) => {
   return (

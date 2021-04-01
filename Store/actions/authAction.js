@@ -2,7 +2,7 @@ import * as t from "../actionsTypes/";
 import axios from "axios";
 
 export const login = ({ email, password }) => {
-  return function action(dispatch) {
+  return function (dispatch) {
     return axios
       .post(
         "http://192.168.1.86:4545/api/auth/signin",
@@ -15,9 +15,11 @@ export const login = ({ email, password }) => {
       .then((res) => {
         //setDeviceStorage.saveKey("accessToken", response.data.accessToken);
         setTimeout(() => {
-          console.log("succ");
-          console.log(res);
-          dispatch({ type: t.SET_LOGIN_STATE, payload: res.data });
+          alert("test");
+          store.dispatch({
+            type: t.SET_LOGIN_STATE,
+            payload: res.data,
+          });
         }, 2500);
       })
       .catch((err) => {

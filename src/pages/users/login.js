@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
-import { login } from "../../../Store/actions/authAction";
-import { View, Image, StyleSheet } from "react-native";
-import { Input, Button } from "react-native-elements";
-import backgroundLogo from "../../../assets/logo.png";
+import React, { useState } from "react";
+// import { connect, useDispatch } from "react-redux";
+// import { login } from "../../../Store/actions/authAction";
+import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import { Input } from "react-native-elements";
 
 const Login = (props) => {
   const [email, setEmail] = useState("mathieudrapala95@gmail.com");
@@ -18,48 +17,84 @@ const Login = (props) => {
   };
 
   return (
-    <>
-      <View>
-        <Image
-          source={backgroundLogo}
-          style={{ width: "auto", height: "50%" }}
-        />
-        <View
-          style={{ paddingLeft: "10%", paddingRight: "10%", marginTop: "10%" }}
-        >
-          <Input
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={(valueEmail) => handleChangeEmail(valueEmail)}
-          />
-          <Input
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            secureTextEntry={true}
-            onChangeText={(valuePassword) =>
-              handleChangePassword(valuePassword)
-            }
-          />
-          <Button
-            style={(styles.button, { marginTop: "10%" })}
-            title="Login"
-            onPress={useDispatch(login({ email, password }))}
-            type="outline"
-          />
+    <View style={styles.background}>
+      <View style={styles.card}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Connexion</Text>
+          <View>
+            <Text>Adresse Email</Text>
+            <Input
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={(valueEmail) => handleChangeEmail(valueEmail)}
+            />
+          </View>
+          <View>
+            <Text>Password</Text>
+            <Input
+              style={styles.input}
+              placeholder="Password"
+              value={password}
+              secureTextEntry={true}
+              onChangeText={(valuePassword) =>
+                handleChangePassword(valuePassword)
+              }
+            />
+          </View>
+          <Text> Mot de passe oublié ? </Text>
+          <TouchableOpacity
+            style={{ marginTop: "5%" }}
+            onPress={() => navigation.navigate("Login")}
+          >
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Se connecter</Text>
+            </View>
+          </TouchableOpacity>
+          <Text>
+            J'ai déjà un compte <Text> S'inscrire</Text>
+          </Text>
         </View>
       </View>
-    </>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {},
+  background: {
+    backgroundColor: "#486CB5",
+    height: "100%",
+    width: "100%",
+  },
+  card: {
+    marginTop: "30%",
+    backgroundColor: "#F4F5FA",
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+  },
+  container: {
+    width: "80%",
+    height: "100%",
+    marginLeft: "10%",
+  },
+  title: {
+    marginTop: "10%",
+    marginBottom: "10%",
+    fontSize: 33,
+  },
   button: {
-    marginTop: "5%",
-    borderRadius: 30,
+    width: "80%",
+    marginLeft: "10%",
+    backgroundColor: "#2067F9",
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 25,
+  },
+  buttonText: {
+    textAlign: "center",
+    color: "#ffffff",
+    fontSize: 22,
   },
 });
 
-export default connect()(Login);
+export default Login;
