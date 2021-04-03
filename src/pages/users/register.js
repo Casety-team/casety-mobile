@@ -38,8 +38,8 @@ const Register = ({ navigation }) => {
         console.log("Register successful");
         navigation.navigate("Login");
       })
-      .catch(() => {
-        console.log("Register fail");
+      .catch((item) => {
+        console.log("Register fail", item);
       });
   };
   return (

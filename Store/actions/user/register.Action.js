@@ -39,10 +39,9 @@ export const register = ({
         return Promise.resolve();
       })
       .catch((err) => {
-        console.log("Erreur: ", err);
         dispatch({
           type: REGISTER_FAIL,
-          payload: {},
+          payload: err,
         });
         return Promise.reject();
       });
