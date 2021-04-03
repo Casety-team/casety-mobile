@@ -22,22 +22,14 @@ export default function WelcomeScreen({ navigation }) {
         name="Login"
         component={LoginPage}
         options={{
-          headerTitle: () => (
-            <View style={styles.header}>
-              <Text style={styles.headerText}>Login</Text>
-            </View>
-          ),
+          headerShown: false,
         }}
       />
       <Stack.Screen
         name="Register"
         component={RegisterPage}
         options={{
-          headerTitle: () => (
-            <View style={styles.header}>
-              <Text style={styles.headerText}>Register</Text>
-            </View>
-          ),
+          headerShown: false,
         }}
       />
     </Stack.Navigator>

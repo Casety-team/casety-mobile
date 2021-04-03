@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
-import { ceil } from "react-native-reanimated";
 import backgroundLogo from "./pictures/bg_welcome.png";
 
 const Welcome = ({ navigation }) => {
@@ -9,12 +8,12 @@ const Welcome = ({ navigation }) => {
       <View>
         <Image
           source={backgroundLogo}
-          style={{ width: "auto", height: "50%" }}
+          style={{ width: "auto", height: "60%" }}
         />
         <Text style={[styles.container]}>
           <Text style={styles.text}>
-            <Text style={styles.span}>Prêt à</Text> vous déplacer sans encombre
-            ?
+            <Text style={styles.span}>Prêt à </Text>
+            vous déplacer sans encombre ?
           </Text>
         </Text>
         <Text style={[styles.container, styles.smallText]}>
@@ -42,9 +41,8 @@ const styles = StyleSheet.create({
   container: {
     width: "80%",
     marginLeft: "10%",
-    marginTop: "10%",
-    marginBottom: "0%",
-    fontSize: 33,
+    marginTop: "5%",
+    fontSize: 30,
     textAlign: "center",
     fontFamily: "Helvetica",
   },
@@ -52,9 +50,9 @@ const styles = StyleSheet.create({
     color: "#4369B0",
   },
   smallText: {
-    fontSize: 22,
+    fontSize: 17,
     fontFamily: "Helvetica-Light",
-    marginBottom: "10%",
+    marginBottom: "5%",
   },
   button: {
     width: "80%",
@@ -67,7 +65,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     color: "#ffffff",
-    fontSize: 22,
+    fontSize: 17,
   },
 });
 
