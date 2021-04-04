@@ -1,19 +1,26 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const deviceStorage = {
-  async loadJWT(item) {
+  async loadJWT() {
     try {
-      const value = await AsyncStorage.getItem(item);
-      if (value !== null) {
-        console.log("GetItems in local storage =>", JSON.parse(value));
-      }
+      console.log("Error for get item =>", error);
+      await AsyncStorage.getItem("accessToken");
     } catch (error) {
       console.log("Error for get item =>", error);
+      return null;
     }
   },
   async savekey(key, value) {
     try {
-      await AsyncStorage.setItem(key, value);
+      if (JSON.stringify(value.accessToken)) {
+        await AsyncStorage.setItem(
+          "accessToken",
+          JSON.stringify(value.accessToken)
+        );
+        console.log("Success add accessToken in storage: " + value.accessToken);
+      }
+      await AsyncStorage.setItem(key, JSON.stringify(value));
+      console.log("Success add all info for user in storage");
     } catch (error) {
       console.log("AsyncStorage Error: " + error.message);
     }
@@ -21,13 +28,10 @@ const deviceStorage = {
 
   async deleteJWT() {
     try {
-      await AsyncStorage.removeItem("accessToken").then(() => {
-        this.setState({
-          jwt: "",
-        });
-      });
+      console.log("Success remove accessToken in storage");
+      await AsyncStorage.removeItem("accessToken");
     } catch (error) {
-      console.log("AsyncStorage Error: " + error.message);
+      console.log("Error remove accessToken in storage: " + error.message);
     }
   },
 };

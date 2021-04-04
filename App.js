@@ -1,7 +1,7 @@
 import React from "react";
-import { Provider } from "react-redux";
-import Store from "./Store";
 import Routes from "./src/routes";
+import Store from "./store";
+import { Provider } from "react-redux";
 
 import { View, Image, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";

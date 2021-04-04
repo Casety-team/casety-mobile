@@ -1,10 +1,15 @@
 import React from "react";
+import deviceStorage from "../../services/deviceStorage";
 import { View, StyleSheet } from "react-native";
 import { useTheme, Drawer } from "react-native-paper";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
+import { useDispatch } from "react-redux";
+import { isLoadingToken } from "../../../actions/isLoadingToken";
 
 export function DrawerContent(props) {
   const paperTheme = useTheme();
+
+  const dispatch = useDispatch();
 
   return (
     <View style={{ flex: 1 }}>
@@ -48,7 +53,8 @@ export function DrawerContent(props) {
         <DrawerItem
           label="Sign Out"
           onPress={() => {
-            signOut();
+            dispatch(isLoadingToken(true));
+            deviceStorage.deleteJWT();
           }}
         />
       </Drawer.Section>

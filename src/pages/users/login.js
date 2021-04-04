@@ -1,22 +1,33 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
+import deviceStorage from "../../services/deviceStorage";
 import { Input } from "react-native-elements";
-import { connect, useDispatch } from "react-redux";
-import { login } from "../../../Store/actions/user/auth.Action";
+import { useDispatch } from "react-redux";
+import { isLoadingToken } from "../../../actions/isLoadingToken";
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("mathieudrapala95@gmail.com");
   const [password, setPassword] = useState("Mathieud95");
 
-  const dispatch = useDispatch();
-
   const handleLogin = () => {
-    dispatch(login({ email, password }))
-      .then(() => {
-        console.log("Login successful");
+    axios
+      .post(
+        "http://192.168.1.86:4545/api/auth/signin",
+        {
+          email,
+          password,
+        },
+        { timeout: 9000 }
+      )
+      .then(async (item) => {
+        dispatch(isLoadingToken(false));
+        await deviceStorage.savekey("user", item.data);
       })
-      .catch(() => {
-        console.log("Login fail");
+      .catch((err) => {
+        console.log("Login fail", err);
       });
   };
 
@@ -31,7 +42,7 @@ const Login = ({ navigation }) => {
               style={styles.input}
               placeholder="casety@secure.com"
               value={email}
-              onChangeText={(valueEmail) => handleChangeEmail(valueEmail)}
+              onChangeText={(valueEmail) => setEmail(valueEmail)}
             />
           </View>
           <View>
@@ -41,9 +52,7 @@ const Login = ({ navigation }) => {
               placeholder="*********"
               value={password}
               secureTextEntry={true}
-              onChangeText={(valuePassword) =>
-                handleChangePassword(valuePassword)
-              }
+              onChangeText={(valuePassword) => setPassword(valuePassword)}
             />
           </View>
           {/* <View>
@@ -136,4 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(Login);
+export default Login;

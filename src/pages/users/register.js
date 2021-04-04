@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
+import deviceStorage from "../../services/deviceStorage";
 import { SvgXml } from "react-native-svg";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
 import { Input } from "react-native-elements";
-import { connect, useDispatch } from "react-redux";
-import { register } from "../../../Store/actions/user/register.Action";
+import { useDispatch } from "react-redux";
+import { isLoadingToken } from "../../../actions/isLoadingToken";
 
 import ellipseClear from "./pictures/Ellipse-clear.svg";
 import ellipseComplet from "./pictures/Ellipse-complet.svg";
@@ -22,21 +24,26 @@ const Register = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleRegister = () => {
-    dispatch(
-      register({
-        email,
-        password,
-        first,
-        last,
-        phone,
-        city,
-        adress,
-        codePostal,
-      })
-    )
-      .then(() => {
-        console.log("Register successful");
-        navigation.navigate("Login");
+    axios
+      .post(
+        "http://192.168.1.86:4545/api/auth/signup",
+        {
+          firstname: first,
+          lastname: last,
+          email: email,
+          password: password,
+          phone: phone,
+          city: city,
+          adress: adress,
+          zip: codePostal,
+          roles: ["user"],
+        },
+        { timeout: 2000 }
+      )
+      .then(async (item) => {
+        console.log(item);
+        dispatch(isLoadingToken(false));
+        await deviceStorage.savekey("user", item.data);
       })
       .catch((item) => {
         console.log("Register fail", item);
@@ -262,4 +269,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect()(Register);
+export default Register;

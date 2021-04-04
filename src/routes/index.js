@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { useSelector } from "react-redux";
 
 //Screens pages
 import { DrawerContent } from "./screens/drawerContent";
@@ -10,9 +11,9 @@ import WelcomeScreen from "./screens/welcomeScreen";
 const Drawer = createDrawerNavigator();
 
 export default function Routes() {
-  const [users, setUsers] = useState(false);
+  const login = useSelector((state) => state.IsLoadingToken);
 
-  if (users == true) {
+  if (login.isLoadingToken) {
     return (
       <NavigationContainer>
         <WelcomeScreen />

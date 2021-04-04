@@ -1,17 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getLocation } from "../../Store/actions/location/location.Action";
-
 import MapView from "react-native-maps";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [markers, setMarkers] = useState([]);
-
-  const dispatch = useDispatch();
-  dispatch(getLocation());
-  const data = useSelector((state) => state.Location);
-  console.log(data);
 
   return (
     <MapView
