@@ -4,6 +4,8 @@ import axios from "axios";
 
 const Profile = () => {
   const [data, setData] = useState([]);
+
+  //Get AsyncStorage for
   const [id, setId] = useState(8);
 
   useEffect(() => {
