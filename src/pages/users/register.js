@@ -11,9 +11,9 @@ import ellipseClear from "./pictures/Ellipse-clear.svg";
 import ellipseComplet from "./pictures/Ellipse-complet.svg";
 
 const Register = ({ navigation }) => {
-  const [email, setEmail] = useState("marcus@gmail.com");
-  const [password, setPassword] = useState("1234567");
-  const [first, setFirst] = useState("Marcus");
+  const [email, setEmail] = useState("mathieudrapala95@gmail.com");
+  const [password, setPassword] = useState("Mathieud95");
+  const [first, setFirst] = useState("Mathieu");
   const [last, setLast] = useState("DRAPALA");
   const [phone, setPhone] = useState("0628736195");
   const [city, setCity] = useState("ECOUEN");
@@ -26,7 +26,7 @@ const Register = ({ navigation }) => {
   const handleRegister = () => {
     axios
       .post(
-        "http://192.168.1.86:4545/api/auth/signup",
+        "http://192.168.1.44:4545/api/auth/signup",
         {
           firstname: first,
           lastname: last,
@@ -41,9 +41,8 @@ const Register = ({ navigation }) => {
         { timeout: 2000 }
       )
       .then(async (item) => {
-        console.log(item);
-        dispatch(isLoadingToken(false));
         await deviceStorage.savekey("user", item.data);
+        dispatch(isLoadingToken(true));
       })
       .catch((item) => {
         console.log("Register fail", item);
@@ -141,7 +140,7 @@ const Register = ({ navigation }) => {
                   <Text style={styles.buttonText}>Créer mon compte </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => handleRegister()}>
+              <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <Text style={styles.textLink}>
                   J'ai déjà un compte ?
                   <Text style={styles.link}> Se connecter</Text>
@@ -259,7 +258,7 @@ const styles = StyleSheet.create({
   textLink: {
     color: "#B0B0B0",
     fontSize: 17,
-    marginTop: "4%",
+    marginTop: "10%",
     textAlign: "center",
   },
   link: {

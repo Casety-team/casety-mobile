@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import axios from "axios";
 
-const Profile = () => {
+const Shop = () => {
   const [data, setData] = useState([]);
+
+  //Get AsyncStorage for
   const [id, setId] = useState(8);
 
   useEffect(() => {
@@ -36,4 +38,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Shop;

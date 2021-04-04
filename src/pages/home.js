@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MapView from "react-native-maps";
+import axios from "axios";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [markers, setMarkers] = useState([]);
+  const [markers, setMarkers] = useState();
+
+  useEffect(() => {
+    refreshMap();
+  }, [isLoading]);
+
+  const refreshMap = () => {
+    axios
+      .get("http://192.168.1.44:4545/api/locations/", { timeout: 9000 })
+      .then(async (item) => {
+        setMarkers(item.data);
+      })
+      .catch((err) => {
+        console.log("Location fail", err);
+      });
+  };
 
   return (
     <MapView
@@ -15,25 +31,24 @@ const Home = () => {
         longitudeDelta: 0.5,
       }}
     >
-      {isLoading
-        ? null
-        : markers.map((marker, index) => {
-            const coords = {
-              latitude: parseFloat(marker.latitude),
-              longitude: parseFloat(marker.longitude),
-            };
+      {markers &&
+        markers.map((item, index) => {
+          const coords = {
+            latitude: parseFloat(item.latitude),
+            longitude: parseFloat(item.longitude),
+          };
 
-            const metadata = `Heures d'ouverture: ${marker.opening_hours} Heures de fermeture: ${marker.closing_hours}`;
+          const metadata = `Heures d'ouverture: ${item.opening_hours} Heures de fermeture: ${item.closing_hours}`;
 
-            return (
-              <MapView.Marker
-                key={index}
-                coordinate={coords}
-                title={marker.transport}
-                description={metadata}
-              />
-            );
-          })}
+          return (
+            <MapView.Marker
+              key={index}
+              coordinate={coords}
+              title={item.transport}
+              description={metadata}
+            />
+          );
+        })}
     </MapView>
   );
 };

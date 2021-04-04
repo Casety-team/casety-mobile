@@ -13,7 +13,7 @@ const Drawer = createDrawerNavigator();
 export default function Routes() {
   const login = useSelector((state) => state.IsLoadingToken);
 
-  if (login.isLoadingToken) {
+  if (!login.isLoadingToken) {
     return (
       <NavigationContainer>
         <WelcomeScreen />

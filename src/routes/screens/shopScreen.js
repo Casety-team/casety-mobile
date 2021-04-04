@@ -3,18 +3,18 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 //Screen
 import Header from "./shared/header";
-import AboutPage from "../../pages/about";
+import ShopPage from "../../pages/shop";
 
 const Stack = createStackNavigator();
 
-export default function About({ navigation }) {
+export default function Shop({ navigation }) {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="About"
-        component={AboutPage}
+        name="Shop"
+        component={ShopPage}
         options={{
-          headerTitle: () => <Header navigation={navigation} title="About" />,
+          headerTitle: () => <Header navigation={navigation} title="Shop" />,
         }}
       />
     </Stack.Navigator>

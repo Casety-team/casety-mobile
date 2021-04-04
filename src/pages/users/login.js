@@ -11,11 +11,12 @@ const Login = ({ navigation }) => {
 
   const [email, setEmail] = useState("mathieudrapala95@gmail.com");
   const [password, setPassword] = useState("Mathieud95");
+  const [sendInLocalStorage, setSendInLocalStorage] = useState(false);
 
   const handleLogin = () => {
     axios
       .post(
-        "http://192.168.1.86:4545/api/auth/signin",
+        "http://192.168.1.44:4545/api/auth/signin",
         {
           email,
           password,
@@ -23,13 +24,18 @@ const Login = ({ navigation }) => {
         { timeout: 9000 }
       )
       .then(async (item) => {
-        dispatch(isLoadingToken(false));
-        await deviceStorage.savekey("user", item.data);
+        await deviceStorage.savekey(item.data);
+        setSendInLocalStorage(true);
       })
       .catch((err) => {
         console.log("Login fail", err);
       });
   };
+
+  if (sendInLocalStorage) {
+    dispatch(isLoadingToken(true));
+    setSendInLocalStorage(false);
+  }
 
   return (
     <View style={styles.background}>

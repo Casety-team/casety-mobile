@@ -53,7 +53,7 @@ export function DrawerContent(props) {
         <DrawerItem
           label="Sign Out"
           onPress={() => {
-            dispatch(isLoadingToken(true));
+            dispatch(isLoadingToken(false));
             deviceStorage.deleteJWT();
           }}
         />
