@@ -10,7 +10,7 @@ import WelcomeScreen from "./screens/welcomeScreen";
 const Drawer = createDrawerNavigator();
 
 export default function Routes() {
-  const [users, setUsers] = useState(true);
+  const [users, setUsers] = useState(false);
 
   if (users == true) {
     return (

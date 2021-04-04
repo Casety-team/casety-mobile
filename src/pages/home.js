@@ -1,67 +1,49 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getLocation } from "../../Store/actions/location/location.Action";
+
 import MapView from "react-native-maps";
 
-class Home extends Component {
-  constructor(props) {
-    super(props);
+const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [markers, setMarkers] = useState([]);
 
-    this.state = {
-      isLoading: true,
-      markers: [],
-    };
-  }
+  const dispatch = useDispatch();
+  dispatch(getLocation());
+  const data = useSelector((state) => state.Location);
+  console.log(data);
 
-  componentDidMount() {
-    this.fetchMarkerData();
-  }
+  return (
+    <MapView
+      style={{ flex: 1 }}
+      region={{
+        latitude: 48.8534,
+        longitude: 2.3488,
+        latitudeDelta: 0.4,
+        longitudeDelta: 0.5,
+      }}
+    >
+      {isLoading
+        ? null
+        : markers.map((marker, index) => {
+            const coords = {
+              latitude: parseFloat(marker.latitude),
+              longitude: parseFloat(marker.longitude),
+            };
 
-  fetchMarkerData() {
-    fetch("http://192.168.1.87:4545/api/locations/")
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          isLoading: false,
-          markers: responseJson,
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
+            const metadata = `Heures d'ouverture: ${marker.opening_hours} Heures de fermeture: ${marker.closing_hours}`;
 
-  render() {
-    return (
-      <MapView
-        style={{ flex: 1 }}
-        region={{
-          latitude: 48.8534,
-          longitude: 2.3488,
-          latitudeDelta: 0.4,
-          longitudeDelta: 0.5,
-        }}
-      >
-        {this.state.isLoading
-          ? null
-          : this.state.markers.map((marker, index) => {
-              const coords = {
-                latitude: parseFloat(marker.latitude),
-                longitude: parseFloat(marker.longitude),
-              };
-
-              const metadata = `Heures d'ouverture: ${marker.opening_hours} Heures de fermeture: ${marker.closing_hours}`;
-
-              return (
-                <MapView.Marker
-                  key={index}
-                  coordinate={coords}
-                  title={marker.transport}
-                  description={metadata}
-                />
-              );
-            })}
-      </MapView>
-    );
-  }
-}
+            return (
+              <MapView.Marker
+                key={index}
+                coordinate={coords}
+                title={marker.transport}
+                description={metadata}
+              />
+            );
+          })}
+    </MapView>
+  );
+};
 
 export default Home;
