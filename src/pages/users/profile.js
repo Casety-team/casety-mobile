@@ -14,7 +14,7 @@ const Profile = () => {
 
   const refreshUser = () => {
     axios
-      .get(`http://192.168.1.44:4545/api/user/${id}`, { timeout: 9000 })
+      .get(`http://192.168.1.66:4545/api/user/${id}`, { timeout: 9000 })
       .then(async (item) => {
         setData([item.data]);
       })

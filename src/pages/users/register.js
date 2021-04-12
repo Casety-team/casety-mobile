@@ -26,7 +26,7 @@ const Register = ({ navigation }) => {
   const handleRegister = () => {
     axios
       .post(
-        "http://192.168.1.44:4545/api/auth/signup",
+        "http://192.168.1.66:4545/api/auth/signup",
         {
           firstname: first,
           lastname: last,

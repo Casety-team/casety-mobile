@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 
 //Screens pages
 import { DrawerContent } from "./screens/drawerContent";
-import MainScreen from "./screens/mainScreen";
+// import MainScreen from "./screens/mainScreen";
+import MapScreen from "./screens/mapScreen";
 import WelcomeScreen from "./screens/welcomeScreen";
 
 const Drawer = createDrawerNavigator();
@@ -25,7 +26,7 @@ export default function Routes() {
         <Drawer.Navigator
           drawerContent={(props) => <DrawerContent {...props} />}
         >
-          <Drawer.Screen name="Shop" component={MainScreen} />
+          <Drawer.Screen name="Home" component={MapScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     );

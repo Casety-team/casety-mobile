@@ -1,56 +1,76 @@
-import React, { useState, useEffect } from "react";
-import MapView from "react-native-maps";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, Text, Dimensions } from "react-native";
 import axios from "axios";
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
+import { CustomMarker } from "./map/CustomMarker";
+import { mapStyle } from "./map/mapStyle";
+import { BottomSheet } from "./map/BottomSheet";
+import { TopBar } from "./map/TopBar";
+import { useMap } from "./map/useMap";
 
-const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [markers, setMarkers] = useState();
+export default function Home({ navigation }) {
+  const {
+    mapRef,
+    selectedMarker,
+    handleNavigateToPoint,
+    handelResetInitialPosition,
+  } = useMap();
+  const [locationsData, setLocationsData] = useState([]);
 
   useEffect(() => {
-    refreshMap();
-  }, [isLoading]);
-
-  const refreshMap = () => {
     axios
-      .get("http://192.168.1.44:4545/api/locations/", { timeout: 9000 })
-      .then(async (item) => {
-        setMarkers(item.data);
+      .get("http://192.168.1.66:4545/api/locations/", { timeout: 9000 })
+      .then((item) => {
+        setLocationsData(item.data);
       })
       .catch((err) => {
         console.log("Location fail", err);
       });
-  };
+  }, []);
 
   return (
-    <MapView
-      style={{ flex: 1 }}
-      region={{
-        latitude: 48.8534,
-        longitude: 2.3488,
-        latitudeDelta: 0.4,
-        longitudeDelta: 0.5,
-      }}
-    >
-      {markers &&
-        markers.map((item, index) => {
-          const coords = {
-            latitude: parseFloat(item.latitude),
-            longitude: parseFloat(item.longitude),
-          };
-
-          const metadata = `Heures d'ouverture: ${item.opening_hours} Heures de fermeture: ${item.closing_hours}`;
-
-          return (
-            <MapView.Marker
-              key={index}
-              coordinate={coords}
-              title={item.transport}
-              description={metadata}
-            />
-          );
-        })}
-    </MapView>
+    <View style={styles.container}>
+      <TopBar onPressElement={handelResetInitialPosition} />
+      <MapView
+        ref={mapRef}
+        customMapStyle={mapStyle}
+        provider={PROVIDER_GOOGLE}
+        style={styles.mapStyle}
+        initialRegion={{
+          latitude: 48.7988517,
+          longitude: 2.3394927,
+          latitudeDelta: 0.4,
+          longitudeDelta: 0.5,
+        }}
+        mapType="standard"
+      >
+        {locationsData &&
+          locationsData.map((marker) => (
+            <View>
+              <CustomMarker
+                key={marker.id}
+                id={marker.id}
+                selectedMarker={selectedMarker}
+                latitude={marker.latitude}
+                longitude={marker.longitude}
+              ></CustomMarker>
+            </View>
+          ))}
+      </MapView>
+      <BottomSheet onPressElement={handleNavigateToPoint} />
+    </View>
   );
-};
+}
 
-export default Home;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "black",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  mapStyle: {
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
+  },
+});

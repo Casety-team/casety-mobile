@@ -16,7 +16,7 @@ const Login = ({ navigation }) => {
   const handleLogin = () => {
     axios
       .post(
-        "http://192.168.1.44:4545/api/auth/signin",
+        "http://192.168.1.66:4545/api/auth/signin",
         {
           email,
           password,
