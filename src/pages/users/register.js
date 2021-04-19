@@ -1,14 +1,17 @@
+import { URL_API } from "@env";
 import React, { useState } from "react";
-import axios from "axios";
-import deviceStorage from "../../services/deviceStorage";
-import { SvgXml } from "react-native-svg";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
-import { Input } from "react-native-elements";
 import { useDispatch } from "react-redux";
+import axios from "axios";
+import { SvgXml } from "react-native-svg";
+
+import deviceStorage from "../../services/deviceStorage";
 import { isLoadingToken } from "../../../actions/isLoadingToken";
 
 import ellipseClear from "./pictures/Ellipse-clear.svg";
 import ellipseComplet from "./pictures/Ellipse-complet.svg";
+
+import { Input } from "react-native-elements";
 
 const Register = ({ navigation }) => {
   const [email, setEmail] = useState("mathieudrapala95@gmail.com");
@@ -24,28 +27,27 @@ const Register = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const handleRegister = () => {
+    //Request POST for register
     axios
-      .post(
-        "http://192.168.1.66:4545/api/auth/signup",
-        {
-          firstname: first,
-          lastname: last,
-          email: email,
-          password: password,
-          phone: phone,
-          city: city,
-          adress: adress,
-          zip: codePostal,
-          roles: ["user"],
-        },
-        { timeout: 2000 }
-      )
+      .post(URL_API + "/auth/signup", {
+        firstname: first,
+        lastname: last,
+        email: email,
+        password: password,
+        phone: phone,
+        city: city,
+        adress: adress,
+        zip: codePostal,
+        roles: ["user"],
+      })
       .then(async (item) => {
+        //Success ADD data in local storage + load token
         await deviceStorage.savekey("user", item.data);
         dispatch(isLoadingToken(true));
       })
-      .catch((item) => {
-        console.log("Register fail", item);
+      .catch((error) => {
+        //Error poster error
+        console.log("An error occurred during registration =>", error);
       });
   };
   return (
@@ -53,33 +55,13 @@ const Register = ({ navigation }) => {
       <View style={styles.contentEllipse}>
         {ellipseActive == true ? (
           <>
-            <SvgXml
-              style={{ marginRight: "2%" }}
-              width="10"
-              height="10"
-              xml={ellipseClear}
-            />
-            <SvgXml
-              style={{ marginLeft: "2%" }}
-              width="10"
-              height="10"
-              xml={ellipseComplet}
-            />
+            <SvgXml style={styles.svgRight} xml={ellipseClear} />
+            <SvgXml style={styles.svgLeft} xml={ellipseComplet} />
           </>
         ) : (
           <>
-            <SvgXml
-              style={{ marginRight: "2%" }}
-              width="10"
-              height="10"
-              xml={ellipseComplet}
-            />
-            <SvgXml
-              style={{ marginLeft: "2%" }}
-              width="10"
-              height="10"
-              xml={ellipseClear}
-            />
+            <SvgXml style={styles.svgRight} xml={ellipseComplet} />
+            <SvgXml style={styles.svgLeft} xml={ellipseClear} />
           </>
         )}
       </View>
@@ -265,6 +247,16 @@ const styles = StyleSheet.create({
     color: "#0F60FB",
     borderBottomColor: "#0F60FB",
     borderBottomWidth: 1,
+  },
+  svgRight: {
+    marginRight: "2%",
+    width: "10",
+    height: "10",
+  },
+  svgLeft: {
+    marginLeft: "2%",
+    width: "10",
+    height: "10",
   },
 });
 

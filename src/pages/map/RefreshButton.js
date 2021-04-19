@@ -1,13 +1,13 @@
-import React from 'react';
-import { StyleSheet, Image, Pressable } from 'react-native';
-import { default as Refresh } from '../../assets/refresh.png';
+import React from "react";
+import { StyleSheet, Image, Pressable } from "react-native";
+import { default as Refresh } from "../../assets/app/refresh.png";
 
 export function RefreshButton({ onPressElement }) {
   return (
     <Pressable
       style={({ pressed }) => [
         {
-          backgroundColor: pressed ? '#FAFAFA' : 'white',
+          backgroundColor: pressed ? "#FAFAFA" : "white",
         },
         styles.container,
       ]}
@@ -23,11 +23,11 @@ const styles = StyleSheet.create({
     height: 36,
     width: 36,
     borderRadius: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
-    height: '70%',
-    width: '70%',
+    height: "70%",
+    width: "70%",
   },
 });

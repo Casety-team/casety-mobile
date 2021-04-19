@@ -1,7 +1,7 @@
 import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-//Screen
+//Screens Page
 import Header from "../shared/header";
 import LoginPage from "../../../pages/users/login";
 

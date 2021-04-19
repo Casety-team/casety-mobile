@@ -1,3 +1,4 @@
+import { URL_API } from "@env";
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import axios from "axios";
@@ -14,7 +15,7 @@ const Profile = () => {
 
   const refreshUser = () => {
     axios
-      .get(`http://192.168.1.66:4545/api/user/${id}`, { timeout: 9000 })
+      .get(URL_API + `/user/${id}`, { timeout: 9000 })
       .then(async (item) => {
         setData([item.data]);
       })

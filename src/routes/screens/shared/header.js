@@ -6,6 +6,7 @@ export default function Header({ navigation, title }) {
   const openMenu = () => {
     navigation.openDrawer();
   };
+
   return (
     <View style={styles.header}>
       <Ionicons

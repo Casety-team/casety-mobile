@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { default as UserImage } from "../../assets/user.svg";
+import { default as UserImage } from "../../assets/app/drawer_button.svg";
 import { SvgXml } from "react-native-svg";
 
 export function Avatar() {

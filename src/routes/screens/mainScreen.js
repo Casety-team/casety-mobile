@@ -2,12 +2,13 @@ import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-//Screens
+//Screens Page
 import Home from "../../pages/home";
 import Shop from "./shopScreen";
 import ProfileScreen from "./users/profileScreen";
 
 const Tab = createBottomTabNavigator();
+
 export default function MainScreen() {
   return (
     <Tab.Navigator

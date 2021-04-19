@@ -9,7 +9,6 @@ const IsLoadingToken = (state = initialState, action) => {
 
   switch (type) {
     case IS_LOADING_TOKEN:
-      console.log(payload);
       return {
         ...state,
         isLoadingToken: payload,

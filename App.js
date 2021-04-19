@@ -2,25 +2,27 @@ import React from "react";
 import Routes from "./src/routes";
 import Store from "./store";
 import { Provider } from "react-redux";
-
-import { View, Image, StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
-import LogoPictures from "./assets/dark_logo.png";
+import { View, Image, StyleSheet } from "react-native";
+import LogoPictures from "./assets/app/light_logo.png";
 
 export default function App() {
+  //Load font familly for app
   let [fontsLoaded] = useFonts({
-    "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),
-    Helvetica: require("./assets/fonts/Helvetica.ttf"),
-    "Helvetica-Light": require("./assets/fonts/Helvetica-Light.ttf"),
+    "Montserrat-Light": require("./assets/app/fonts/Montserrat-Light.ttf"),
+    Helvetica: require("./assets/app/fonts/Helvetica.ttf"),
+    "Helvetica-Light": require("./assets/app/fonts/Helvetica-Light.ttf"),
   });
 
   if (fontsLoaded) {
+    //Redirect Welcome page
     return (
       <Provider store={Store}>
         <Routes />
       </Provider>
     );
   } else {
+    //Redirect Loading page
     return (
       <View style={[styles.container, styles.horizontal]}>
         <Image style={styles.logo} source={LogoPictures} />

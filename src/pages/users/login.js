@@ -1,3 +1,4 @@
+import { URL_API } from "@env";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, TouchableOpacity, View, Text } from "react-native";
@@ -14,9 +15,10 @@ const Login = ({ navigation }) => {
   const [sendInLocalStorage, setSendInLocalStorage] = useState(false);
 
   const handleLogin = () => {
+    console.log(URL_API + "/auth/signin");
     axios
       .post(
-        "http://192.168.1.66:4545/api/auth/signin",
+        URL_API + "/auth/signin",
         {
           email,
           password,

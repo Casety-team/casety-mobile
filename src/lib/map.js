@@ -1,17 +1,3 @@
-//import { default as logo } from "../../assets/dark_logo.png";
-// export const MARKERS_DATA = [
-//   {
-//     id: "1",
-//     latitude: 41.3997999,
-//     longitude: 2.1909796,
-//     name: "Reboot Studio",
-//     direction: "Carrer de Pujades, 100",
-
-//     color: "#2F3136",
-//     img: logo,
-//   },
-// ];
-
 import axios from "axios";
 
 const dataMap = {

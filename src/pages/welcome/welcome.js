@@ -1,72 +1,54 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { SvgXml } from "react-native-svg";
+import { LinearGradient } from "expo-linear-gradient";
+import { styles } from "./styles.modules/";
 import backgroundLogo from "./pictures/bg_welcome.png";
+import direction from "../../assets/app/direction.svg";
 
-const Welcome = ({ navigation }) => {
+export default Welcome = ({ navigation }) => {
   return (
-    <View style={{ height: "100%", width: "100%", backgroundColor: "#F4F5FA" }}>
+    <View style={styles.content}>
       <View>
-        <Image
-          source={backgroundLogo}
-          style={{ width: "auto", height: "60%" }}
-        />
-        <Text style={[styles.container]}>
-          <Text style={styles.text}>
-            <Text style={styles.span}>Prêt à </Text>
-            vous déplacer sans encombre ?
-          </Text>
+        <Image source={backgroundLogo} style={styles.picture} />
+        <Text style={[styles.textContent, { marginTop: "15%" }]}>
+          <Text style={styles.span}>Prêt à </Text>
+          vous déplacer sans encombre ?
         </Text>
-        <Text style={[styles.container, styles.smallText]}>
+        <Text style={[styles.textContent, styles.smallText]}>
           Laissez vos bagages en sécurité !
         </Text>
+
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Créer un compte</Text>
-          </View>
+          <LinearGradient
+            colors={["#6693EB", "#3375F5", "#2063FA"]}
+            style={styles.button}
+          >
+            <View style={styles.row}>
+              <Text style={styles.buttonText}>Créer un compte</Text>
+              <View style={{ marginLeft: 9, marginTop: 3 }}>
+                <SvgXml width="15" height="15" xml={direction} />
+              </View>
+            </View>
+          </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ marginTop: "5%" }}
+          style={styles.topSpace}
           onPress={() => navigation.navigate("Login")}
         >
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>Se connecter</Text>
-          </View>
+          <LinearGradient
+            colors={["#6693EB", "#3375F5", "#2063FA"]}
+            style={styles.button}
+          >
+            <View style={styles.row}>
+              <Text style={styles.buttonText}>Se connecter</Text>
+              <View style={{ marginLeft: 30, marginTop: 3 }}>
+                <SvgXml width="15" height="15" xml={direction} />
+              </View>
+            </View>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: "80%",
-    marginLeft: "10%",
-    marginTop: "5%",
-    fontSize: 30,
-    textAlign: "center",
-    fontFamily: "Helvetica",
-  },
-  span: {
-    color: "#4369B0",
-  },
-  smallText: {
-    fontSize: 17,
-    fontFamily: "Helvetica-Light",
-    marginBottom: "5%",
-  },
-  button: {
-    width: "80%",
-    marginLeft: "10%",
-    backgroundColor: "#2067F9",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 25,
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#ffffff",
-    fontSize: 17,
-  },
-});
-
-export default Welcome;

@@ -12,7 +12,7 @@ export function BottomSheet({ onPressElement }) {
 
   useEffect(() => {
     axios
-      .get("http://192.168.1.66:4545/api/locations/", { timeout: 9000 })
+      .get("http://api.casety.fr/api/locations/", { timeout: 9000 })
       .then((item) => {
         setLocationsData(item.data);
       })
