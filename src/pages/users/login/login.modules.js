@@ -50,6 +50,7 @@ export const Styles = StyleSheet.create({
   },
   link: {
     fontSize: 17,
+    fontWeight: "bold",
     fontFamily: "Helvetica",
     color: "#0F60FB",
     borderBottomColor: "#0F60FB",

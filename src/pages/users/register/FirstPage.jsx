@@ -167,11 +167,16 @@ export default FirstPage = ({
         arrowSpace={0}
         width={60}
       />
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <View>
         <Text style={Styles.textLink}>
-          J'ai déjà un compte ?<Text style={Styles.link}> Se connecter</Text>
+          J'ai déjà un compte ?
+          <View style={{ marginBottom: -4 }}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={Styles.link}> Se connecter</Text>
+            </TouchableOpacity>
+          </View>
         </Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };

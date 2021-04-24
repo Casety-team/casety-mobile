@@ -113,10 +113,16 @@ export default SecondPage = ({
           iconStyle={{ borderColor: "#1E68F9" }}
           onPress={() => setSelected(!isSelected)}
         />
-        <Text style={Styles.smallText}>
-          J'accepte les{" "}
-          <Text style={{ color: "#1E68F9" }}>conditions d'utilisations</Text>
-        </Text>
+        <View style={{ marginTop: 5 }}>
+          <Text>
+            J'accepte les
+            <View style={{ marginBottom: -4 }}>
+              <TouchableOpacity onPress={() => navigation.navigate("Privacy")}>
+                <Text style={Styles.smallText}> conditions d'utilisation</Text>
+              </TouchableOpacity>
+            </View>
+          </Text>
+        </View>
       </View>
       {isSelected && (
         <ButtonCirle
@@ -126,12 +132,16 @@ export default SecondPage = ({
           width={225}
         />
       )}
-
-      <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+      <View>
         <Text style={Styles.textLink}>
-          J'ai déjà un compte ?<Text style={Styles.link}> Se connecter</Text>
+          J'ai déjà un compte ?
+          <View style={{ marginBottom: -4 }}>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={Styles.link}> Se connecter</Text>
+            </TouchableOpacity>
+          </View>
         </Text>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 };

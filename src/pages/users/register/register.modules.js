@@ -46,14 +46,15 @@ export const Styles = StyleSheet.create({
   textLink: {
     marginTop: 63,
     marginLeft: 1,
-    color: "#B0B0B0",
     fontSize: 17,
     fontWeight: "bold",
     fontFamily: "Helvetica",
+    color: "#B0B0B0",
     textAlign: "center",
   },
   link: {
     fontSize: 17,
+    fontWeight: "bold",
     fontFamily: "Helvetica",
     color: "#0F60FB",
     borderBottomColor: "#0F60FB",
@@ -68,6 +69,9 @@ export const Styles = StyleSheet.create({
     width: 20,
     height: 20,
     alignSelf: "center",
+  },
+  smallText: {
+    color: "#1E68F9",
   },
   row: {
     display: "flex",
