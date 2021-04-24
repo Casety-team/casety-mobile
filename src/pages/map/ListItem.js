@@ -22,7 +22,7 @@ import arrow from "../../assets/app/arrow.svg";
 import arrowBack from "../../assets/app/arrow-back.svg";
 //import geolocal from "../../assets/app/geolocal.svg";
 import calendar from "../../assets/app/calendar.svg";
-import StripeCheckout from "./stripe/StripeCheckout";
+import StripeCheckouts from "./stripe/StripeCheckout";
 
 export function ListItem({ item, onPressElement, navigation }) {
   // const [localisation, setLocalisation] = useState("");
@@ -155,30 +155,9 @@ export function ListItem({ item, onPressElement, navigation }) {
     }, 250);
   };
 
-  const onPaymentSuccess = (token) => {
-    console.log(token);
-  };
-
-  const onClose = () => {
-    // maybe navigate to other screen here?
-  };
-
   return isOpen == true ? (
     openStripe == true ? (
-      <View>
-        <StripeCheckout
-          publicKey="pk_test_51I6xfpGWsM2bVeof75ZGYq7KXzLoNhta0xQFMtwbOZTz6sQKE2200cc7J8QoeGXkILPAve6Wl1zdLRL1TBFaGaQZ00k7zmJZhm"
-          amount={100000}
-          imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Flag_of_the_Schutzstaffel.svg/1200px-Flag_of_the_Schutzstaffel.svg.png"
-          storeName="Stripe Checkout"
-          description="Test"
-          currency="USD"
-          allowRememberMe={false}
-          prepopulatedEmail="test@test.com"
-          onClose={onClose}
-          onPaymentSuccess={onPaymentSuccess}
-        />
-      </View>
+      <StripeCheckouts nameProduct="Marcus" unitAmount={200} />
     ) : (
       <View style={styles.container}>
         <View

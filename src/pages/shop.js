@@ -1,12 +1,7 @@
 import React from "react";
-import { View, Text } from "react-native";
-
+import StripeCheckouts from "../pages/map/stripe/StripeCheckout";
 const Shop = () => {
-  return (
-    <View>
-      <Text style={{ marginTop: 50, marginLeft: 50 }}>Shop Page</Text>
-    </View>
-  );
+  return <StripeCheckouts nameProduct="Marcus" unitAmount={200} />;
 };
 
 export default Shop;

@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 //Screens Page
 import Header from "../shared/header";
-import ProfilePage from "../../../pages/users/profile";
+import ProfilePage from "../../../pages/shop";
 
 const Stack = createStackNavigator();
 

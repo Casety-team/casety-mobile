@@ -1,102 +1,58 @@
 import React, { Component } from "react";
-import { Platform, View, ViewPropTypes } from "react-native";
-import { WebView } from "react-native-webview";
-import { PropTypes } from "prop-types";
+import axios from "axios";
+import StripeCheckout from "react-native-stripe-checkout-webview";
 
-class StripeCheckout extends Component {
-  render() {
-    const {
-      publicKey,
-      amount,
-      allowRememberMe,
-      currency,
-      description,
-      imageUrl,
-      storeName,
-      prepopulatedEmail,
-      style,
-      onPaymentSuccess,
-      onClose,
-    } = this.props;
+export default class StripeCheckouts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stripeID: "",
+      publicKey:
+        "pk_test_51I6xfpGWsM2bVeof75ZGYq7KXzLoNhta0xQFMtwbOZTz6sQKE2200cc7J8QoeGXkILPAve6Wl1zdLRL1TBFaGaQZ00k7zmJZhm",
+    };
+  }
 
-    const jsCode = `(function() {
-                    var originalPostMessage = window.postMessage;
-
-                    var patchedPostMessage = function(message, targetOrigin, transfer) {
-                      originalPostMessage(message, targetOrigin, transfer);
-                    };
-
-                    patchedPostMessage.toString = function() {
-                      return String(Object.hasOwnProperty).replace('hasOwnProperty', 'postMessage');
-                    };
-
-                    window.postMessage = patchedPostMessage;
-                  })();`;
-    return (
-      <WebView
-        originWhitelist={["*"]}
-        javaScriptEnabled={true}
-        scrollEnabled={false}
-        bounces={false}
-        injectedJavaScript={jsCode}
-        source={{
-          html: `<script src="https://checkout.stripe.com/checkout.js"></script>
-            <script>
-            var handler = StripeCheckout.configure({
-              key: '${publicKey}',
-              image: '${imageUrl}',
-              locale: 'auto',
-              token: function(token) {
-                window.postMessage(token.id, token.id);
-              },
-            });
-
-            window.onload = function() {
-              handler.open({
-                image: '${imageUrl}',
-                name: '${storeName}',
-                description: '${description}',
-                amount: ${amount},
-                currency: '${currency}',
-                allowRememberMe: ${allowRememberMe},
-                email: '${prepopulatedEmail}',
-                closed: function() {
-                  window.postMessage("WINDOW_CLOSED", "*");
-                }
-              });
-            };
-            </script>`,
-          baseUrl: "",
-        }}
-        onMessage={(event) =>
-          event.nativeEvent.data === "WINDOW_CLOSED"
-            ? onClose()
-            : onPaymentSuccess(event.nativeEvent.data)
+  componentDidMount() {
+    const { nameProduct, unitAmount } = this.props;
+    axios
+      .post(
+        "https://api.casety.fr/stripe/charge/",
+        {
+          nameProduct: nameProduct,
+          unitAmount: unitAmount,
+          quantity: 1,
+          reservationId: 1,
+          idUser: 1, //change get Location
+        },
+        { timeout: 9000 }
+      )
+      .then((item) => {
+        console.log("Stripe Success");
+        this.setState({ stripeID: item.data.id });
+      })
+      .catch(function (error) {
+        if (!error.status) {
+          console.log("Stripe fail :", error);
         }
-        style={[{ flex: 1 }, style]}
-        scalesPageToFit={Platform.OS === "android"}
+      });
+  }
+  render() {
+    console.log("rendering stripe webview");
+    return (
+      <StripeCheckout
+        stripePublicKey={this.state.publicKey}
+        checkoutSessionInput={{
+          sessionId: this.state.stripeID,
+        }}
+        onSuccess={({ checkoutSessionId }) => {
+          console.log(
+            `Stripe checkout session succeeded. session id: ${checkoutSessionId}.`
+          );
+        }}
+        onCancel={() => {
+          console.log(`Stripe checkout session cancelled.`);
+        }}
       />
     );
   }
 }
-
-StripeCheckout.propTypes = {
-  publicKey: PropTypes.string.isRequired,
-  amount: PropTypes.number.isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  storeName: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  allowRememberMe: PropTypes.bool.isRequired,
-  onPaymentSuccess: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
-  currency: PropTypes.string,
-  prepopulatedEmail: PropTypes.string,
-  style: ViewPropTypes.object,
-};
-
-StripeCheckout.defaultProps = {
-  prepopulatedEmail: "",
-  currency: "USD",
-};
-
-export default StripeCheckout;
