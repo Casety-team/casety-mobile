@@ -3,8 +3,8 @@ import React from "react";
 import { Marker } from "react-native-maps";
 import Animated from "react-native-reanimated";
 import { StyleSheet, View, Image } from "react-native";
-import { useMarkerAnimation } from "./useMarkerAnimation";
-import { default as logo } from "../../../assets/app/light_logo.png";
+import { useMarkerAnimation } from "../functions/useMarkerAnimation";
+import { default as logo } from "../../../../assets/app/light_logo.png";
 
 export function CustomMarker({
   id,

@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { SvgXml } from "react-native-svg";
-import SelectInput from "react-native-select-input-ios";
 import DateTimePicker from "react-native-modal-datetime-picker";
+import SelectInput from "react-native-select-input-ios";
 import moment from "moment";
 import axios from "axios";
 import "moment/locale/fr";
 import {
-  StyleSheet,
   View,
   Text,
-  Pressable,
-  Image,
   TextInput,
   TouchableOpacity,
   Keyboard,
 } from "react-native";
-import deviceStorage from "../../services/deviceStorage";
-import { default as logo } from "../../../assets/app/dark_logo.png";
-import direction from "../../assets/app/direction.svg";
-import arrow from "../../assets/app/arrow.svg";
-import arrowBack from "../../assets/app/arrow-back.svg";
-//import geolocal from "../../assets/app/geolocal.svg";
-import calendar from "../../assets/app/calendar.svg";
-import StripeCheckouts from "./stripe/StripeCheckout";
+import deviceStorage from "../../../../services/deviceStorage";
+import StripeCheckouts from "../../stripe/StripeCheckout";
+
+import direction from "../../../../assets/app/direction.svg";
+import arrow from "../../../../assets/app/arrow.svg";
+import arrowBack from "../../../../assets/app/arrow-back.svg";
+//import geolocal from "../../../../assets/app/geolocal.svg";
+import calendar from "../../../../assets/app/calendar.svg";
+
+import ListLocation from "./location/";
+import { Styles } from "./ListItem.module";
 
 export function ListItem({ item, onPressElement, navigation }) {
   // const [localisation, setLocalisation] = useState("");
@@ -56,14 +56,14 @@ export function ListItem({ item, onPressElement, navigation }) {
 
   useEffect(() => {
     axios
-      .get(`http://api.casety.fr/api/lockers/`, {
+      .get(`https://api.casety.fr/api/lockers/`, {
         timeout: 9000,
       })
       .then((res) => {
         res.data.map((data) => {
           typesCasierValue.filter((type) => {
             axios
-              .get(`http://api.casety.fr/api/locker_types/types/${type}`, {
+              .get(`https://api.casety.fr/api/locker_types/types/${type}`, {
                 timeout: 9000,
               })
               .then((items) => {
@@ -99,7 +99,7 @@ export function ListItem({ item, onPressElement, navigation }) {
   const handleLogin = () => {
     axios
       .post(
-        "http://api.casety.fr/api/reservers",
+        "https://api.casety.fr/api/reservers",
         {
           date_start: depot,
           date_end: retrait,
@@ -159,7 +159,7 @@ export function ListItem({ item, onPressElement, navigation }) {
     openStripe == true ? (
       <StripeCheckouts nameProduct="Marcus" unitAmount={200} />
     ) : (
-      <View style={styles.container}>
+      <View style={Styles.container}>
         <View
           style={{
             display: "flex",
@@ -168,13 +168,13 @@ export function ListItem({ item, onPressElement, navigation }) {
           }}
         >
           <TouchableOpacity onPress={() => setIsOpen(false)}>
-            <View style={styles.buttonTop}>
+            <View style={Styles.buttonTop}>
               <SvgXml width="15" height="15" xml={arrowBack} />
             </View>
           </TouchableOpacity>
           <View style={{ marginLeft: "5%" }}>
-            <Text style={styles.title}>Bonjour {firstnameLocal}</Text>
-            <Text style={styles.subTitle}>
+            <Text style={Styles.title}>Bonjour {firstnameLocal}</Text>
+            <Text style={Styles.subTitle}>
               Souhaitez-vous réserver un casier ?
             </Text>
           </View>
@@ -186,7 +186,7 @@ export function ListItem({ item, onPressElement, navigation }) {
           }}
         >
           <TextInput
-            style={styles.input}
+            style={Styles.input}
             placeholder="Ma Position"
             value={localisation}
             onChangeText={(valueLocalisation) =>
@@ -285,7 +285,7 @@ export function ListItem({ item, onPressElement, navigation }) {
           >
             <View>
               <SelectInput
-                style={styles.input}
+                style={Styles.input}
                 value={typesCasier}
                 options={tCasier}
                 onValueChange={(values) => {
@@ -302,7 +302,7 @@ export function ListItem({ item, onPressElement, navigation }) {
           {typesCasierValue != "init" && (
             <View style={{ width: "45%" }}>
               <SelectInput
-                style={styles.input}
+                style={Styles.input}
                 value={lengthLockers}
                 options={getDataLocker}
                 onValueChange={(valuez) => {
@@ -316,7 +316,7 @@ export function ListItem({ item, onPressElement, navigation }) {
           style={{ marginTop: "5%" }}
           onPress={() => handleLogin()}
         >
-          <View style={styles.buttonForm}>
+          <View style={Styles.buttonForm}>
             <View
               style={{
                 display: "flex",
@@ -334,125 +334,10 @@ export function ListItem({ item, onPressElement, navigation }) {
       </View>
     )
   ) : (
-    <Pressable
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed ? "#FAFAFA" : "white",
-        },
-        styles.item,
-      ]}
-      onPress={() => {
-        setIsOpen(true);
-        onPressElement(item.id, item.latitude, item.longitude);
-      }}
-    >
-      <View style={[styles.logo, { backgroundColor: item.color }]}>
-        <Image source={logo} style={styles.logoImage} resizeMode="contain" />
-      </View>
-      <View>
-        <Text style={styles.titleLocation}>{item.name}</Text>
-        <Text style={styles.direction}>
-          Ouvert de {item.opening_hours} Heures à {item.closing_hours} Heures
-        </Text>
-      </View>
-    </Pressable>
+    <ListLocation
+      setIsOpen={setIsOpen}
+      onPressElement={onPressElement}
+      item={item}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  item: {
-    flexDirection: "row",
-    padding: 20,
-    alignItems: "center",
-  },
-  logo: {
-    height: 32,
-    width: 32,
-    borderRadius: 50,
-    marginRight: 19,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  logoImage: {
-    height: "65%",
-    width: "65%",
-  },
-  titleLocation: {
-    fontFamily: "Helvetica-Light",
-    fontWeight: "500",
-    fontSize: 16,
-    marginTop: "3%",
-  },
-  title: {
-    fontFamily: "Helvetica-Light",
-    fontWeight: "500",
-    fontSize: 30,
-    marginTop: "3%",
-  },
-  subTitle: {
-    fontFamily: "Helvetica-Light",
-    width: "70%",
-    fontSize: 18,
-    marginTop: "3%",
-    marginBottom: "3%",
-  },
-  direction: {
-    fontSize: 14,
-    fontWeight: "400",
-    color: "#989CA5",
-  },
-  differentSelectLabel: {
-    fontSize: 16,
-    color: "blue",
-  },
-  differentSelectValue: {
-    fontSize: 18,
-    color: "#000000",
-  },
-  input: {
-    marginBottom: "3%",
-    width: "100%",
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderStyle: "solid",
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 15,
-  },
-  inputPicker: {
-    marginTop: "-10%",
-    width: "100%",
-  },
-  container: {
-    width: "80%",
-    height: "100%",
-    marginLeft: "10%",
-  },
-  buttonTop: {
-    width: "10%",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-  },
-  button: {
-    width: "80%",
-    marginLeft: "10%",
-    backgroundColor: "#2067F9",
-    paddingVertical: 12,
-    paddingHorizontal: 25,
-    borderRadius: 25,
-  },
-  buttonForm: {
-    width: "80%",
-    marginLeft: "10%",
-    backgroundColor: "#2067F9",
-    paddingVertical: 20,
-    paddingHorizontal: 25,
-    borderRadius: 40,
-  },
-  buttonText: {
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#ffffff",
-    fontSize: 17,
-  },
-});

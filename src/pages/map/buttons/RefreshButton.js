@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Image, Pressable } from "react-native";
-import { default as Refresh } from "../../assets/app/refresh.png";
+import { default as Refresh } from "../../../assets/app/refresh.png";
 
 export function RefreshButton({ onPressElement }) {
   return (

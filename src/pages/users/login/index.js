@@ -1,5 +1,5 @@
 import { URL_API } from "@env";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { isLoadingToken } from "../../../../actions/isLoadingToken";
 import axios from "axios";
@@ -17,8 +17,8 @@ import eye_open from "../pictures/eye_open.svg";
 import eye_close from "../pictures/eye_close.svg";
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("mathieudrapala95@gmail.com");
+  const [password, setPassword] = useState("Mathieud95");
   const [show, setShow] = useState(false);
   const [sendInLocalStorage, setSendInLocalStorage] = useState(false);
 
@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
       })
       .catch((err) => {
         //print console log if error call API
-        console.log("Login Fail", err);
+        console.log("Login Fail =>", err);
       });
   };
 

@@ -7,11 +7,11 @@ const Profile = () => {
   const [data, setData] = useState([]);
 
   //Get AsyncStorage for
-  const [id, setId] = useState(8);
+  const [id, setId] = useState(1);
 
   useEffect(() => {
     refreshUser();
-  });
+  }, []);
 
   const refreshUser = () => {
     axios
@@ -26,6 +26,7 @@ const Profile = () => {
 
   return (
     <View>
+      <Text>Profile</Text>
       {data.map((item, index) => {
         return (
           <View key={index}>

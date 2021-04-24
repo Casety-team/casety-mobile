@@ -1,13 +1,13 @@
 //TopBar.js
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Avatar } from "./Avatar";
-import { RefreshButton } from "./RefreshButton";
+import { DrawerButton } from "../buttons/DrawerButton";
+import { RefreshButton } from "../buttons/RefreshButton";
 
-export function TopBar({ onPressElement }) {
+export function TopBar({ navigation, onPressElement }) {
   return (
     <View style={styles.container}>
-      <Avatar />
+      <DrawerButton navigation={navigation} />
       <RefreshButton onPressElement={onPressElement} />
     </View>
   );

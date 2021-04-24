@@ -1,12 +1,16 @@
+import { URL_API } from "@env";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Dimensions } from "react-native";
 import axios from "axios";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
-import { CustomMarker } from "./map/CustomMarker";
-import { mapStyle } from "./map/mapStyle";
-import { BottomSheet } from "./map/BottomSheet";
-import { TopBar } from "./map/TopBar";
-import { useMap } from "./map/useMap";
+
+//Components
+import { StyleSheet, View, Dimensions, Text } from "react-native";
+//Map Components
+import { useMap } from "./map/functions/useMap";
+import { mapStyle } from "./map/functions/mapStyle";
+import { TopBar } from "./map/components/TopBar";
+import { CustomMarker } from "./map/config/CustomMarker";
+import { BottomSheet } from "./map/components/BottomSheet";
 
 export default function Home({ navigation }) {
   const {
@@ -15,22 +19,27 @@ export default function Home({ navigation }) {
     handleNavigateToPoint,
     handelResetInitialPosition,
   } = useMap();
+
   const [locationsData, setLocationsData] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://api.casety.fr/api/locations/", { timeout: 9000 })
+      .get("https://api.casety.fr/api/locations/", { timeout: 9000 })
       .then((item) => {
+        console.log("Get Location Success");
         setLocationsData(item.data);
       })
       .catch((err) => {
-        console.log("Location fail", err);
+        console.log("Get Location fail =>", err);
       });
   }, []);
 
   return (
-    <View style={styles.container}>
-      <TopBar onPressElement={handelResetInitialPosition} />
+    <View>
+      <TopBar
+        navigation={navigation}
+        onPressElement={handelResetInitialPosition}
+      />
       <MapView
         ref={mapRef}
         customMapStyle={mapStyle}
@@ -51,24 +60,21 @@ export default function Home({ navigation }) {
                 key={marker.id}
                 id={marker.id}
                 selectedMarker={selectedMarker}
-                latitude={marker.latitude}
-                longitude={marker.longitude}
-              ></CustomMarker>
+                latitude={Number(marker.latitude)}
+                longitude={Number(marker.longitude)}
+              />
             </View>
           ))}
       </MapView>
-      <BottomSheet onPressElement={handleNavigateToPoint} />
+      <BottomSheet
+        navigation={navigation}
+        onPressElement={handleNavigateToPoint}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "black",
-    alignItems: "center",
-    justifyContent: "center",
-  },
   mapStyle: {
     width: Dimensions.get("window").width,
     height: Dimensions.get("window").height,

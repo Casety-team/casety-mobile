@@ -15,35 +15,47 @@ export function DrawerContent(props) {
         <View style={styles.drawerContent}>
           <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              label="Home"
+              label="Map"
               onPress={() => {
-                props.navigation.navigate("Home");
+                props.navigation.navigate("Map");
               }}
             />
+          </Drawer.Section>
+          <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
-              label="Profile"
+              label="Profil"
               onPress={() => {
                 props.navigation.navigate("Profile");
               }}
             />
+            <DrawerItem
+              label="Mes commandes"
+              onPress={() => {
+                props.navigation.navigate("Market");
+              }}
+            />
+          </Drawer.Section>
+          <Drawer.Section style={styles.drawerSection}>
             <DrawerItem
               label="Support"
               onPress={() => {
                 props.navigation.navigate("SupportScreen");
               }}
             />
+            <DrawerItem
+              label="Toggle drawer"
+              onPress={() => props.navigation.toggleDrawer()}
+            />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
-      <Drawer.Section style={styles.bottomDrawerSection}>
-        <DrawerItem
-          label="Sign Out"
-          onPress={() => {
-            dispatch(isLoadingToken(false));
-            deviceStorage.deleteJWT();
-          }}
-        />
-      </Drawer.Section>
+      <DrawerItem
+        label="Déconnexion"
+        onPress={() => {
+          dispatch(isLoadingToken(false));
+          deviceStorage.deleteJWT();
+        }}
+      />
     </View>
   );
 }
