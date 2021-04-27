@@ -124,14 +124,16 @@ export default SecondPage = ({
           </Text>
         </View>
       </View>
-      {isSelected && (
-        <ButtonCirle
-          navigation={() => setSelection(true)}
-          name="Créer mon compte"
-          arrowSpace={15}
-          width={225}
-        />
-      )}
+
+      <ButtonCirle
+        navigation={() =>
+          isSelected ? setSelection(false) : setSelection(true)
+        }
+        name="Créer mon compte"
+        disabled={!isSelected}
+        arrowSpace={15}
+        width={225}
+      />
       <View>
         <Text style={Styles.textLink}>
           J'ai déjà un compte ?

@@ -4,7 +4,7 @@ import axios from "axios";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 
 //Components
-import { StyleSheet, View, Dimensions, Text } from "react-native";
+import { StyleSheet, View, Dimensions } from "react-native";
 //Map Components
 import { useMap } from "./map/functions/useMap";
 import { mapStyle } from "./map/functions/mapStyle";

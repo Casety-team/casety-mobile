@@ -74,6 +74,11 @@ export const Styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 10,
   },
+  buttonTop2: {
+    width: "10%",
+    paddingVertical: 0,
+    paddingHorizontal: 10,
+  },
   button: {
     width: "80%",
     marginLeft: "10%",
@@ -95,5 +100,21 @@ export const Styles = StyleSheet.create({
     textAlign: "center",
     color: "#ffffff",
     fontSize: 17,
+  },
+  tinyLogo: {
+    paddingRight: 100,
+    borderRadius: 100,
+    width: 100,
+    height: 100,
+  },
+  row: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  payCard: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    backgroundColor: "#2067F9",
+    borderRadius: 10,
   },
 });

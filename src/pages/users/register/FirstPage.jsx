@@ -58,13 +58,10 @@ export default FirstPage = ({
     );
 
     if (strongRegex.test(password)) {
-      console.log("secure");
       setSuccessPassword(true);
     } else if (mediumRegex.test(password)) {
-      console.log("medium");
       setSuccessPassword(true);
     } else {
-      console.log("refus");
       setSuccessPassword(false);
     }
   };

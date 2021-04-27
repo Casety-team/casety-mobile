@@ -5,7 +5,12 @@ import { Styles } from "../ListItem.module";
 
 import { default as logo } from "../../../../../../assets/app/dark_logo.png";
 
-export default function ListLocation({ setOpenForm, onPressElement, item }) {
+export default function ListLocation({
+  setOpenForm,
+  setGetIdLocation,
+  onPressElement,
+  item,
+}) {
   return (
     <Pressable
       style={({ pressed }) => [
@@ -16,6 +21,7 @@ export default function ListLocation({ setOpenForm, onPressElement, item }) {
       ]}
       onPress={() => {
         setOpenForm(true);
+        setGetIdLocation(item.id);
         onPressElement(item.id, item.latitude, item.longitude);
       }}
     >

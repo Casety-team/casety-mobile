@@ -17,7 +17,7 @@ import eye_open from "../pictures/eye_open.svg";
 import eye_close from "../pictures/eye_close.svg";
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("mathieudrapala95@gmail.com");
+  const [email, setEmail] = useState("drapalamathieu95@gmail.com");
   const [password, setPassword] = useState("Mathieud95");
   const [show, setShow] = useState(false);
   const [sendInLocalStorage, setSendInLocalStorage] = useState(false);

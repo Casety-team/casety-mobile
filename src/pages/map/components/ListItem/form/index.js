@@ -1,10 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { SvgXml } from "react-native-svg";
 import moment from "moment";
 import "moment/locale/fr";
+import axios from "axios";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import SelectInput from "react-native-select-input-ios";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import ButtonCirle from "../../../../../components/Button";
 
 import { Styles } from "../ListItem.module";
 
@@ -19,6 +21,7 @@ export default function ReserverForm({
   userLocal,
   setFirstnameLocal,
   setLocalId,
+  getIdLocation,
   firstnameLocal,
   depot,
   showDepot,
@@ -34,11 +37,11 @@ export default function ReserverForm({
   setTypesCasier,
   typesCasierValue,
   setTypesCasierValue,
-  lengthLockers,
   getDataLocker,
-  setLengthLockers,
-  handleLogin,
+  setGetDataLocker,
+  setFinalPage,
 }) {
+  const [isSelected, setSelected] = useState(false);
   const tCasier = [
     { value: 0, label: "Types de casier" },
     { value: 1, label: "Casier Vélo" },
@@ -51,6 +54,44 @@ export default function ReserverForm({
     });
   }, []);
 
+  useEffect(() => {
+    if (depot && retrait) {
+      if (typesCasier != 0) {
+        setSelected(true);
+      } else {
+        setSelected(false);
+      }
+    } else {
+      setSelected(false);
+    }
+  }, [depot, retrait, getDataLocker]);
+
+  useEffect(() => {
+    axios
+      .get(`https://api.casety.fr/api/lockers/`)
+      .then((res) => {
+        res.data.map((data) => {
+          typesCasierValue.filter((type) => {
+            if (type == "") {
+              setTypesCasierValue(["init"]);
+            } else if (data.locationId == getIdLocation) {
+              axios
+                .get(`https://api.casety.fr/api/locker_types/types/${type}`)
+                .then((items) => {
+                  setGetDataLocker(items.data);
+                });
+            }
+          });
+        });
+      })
+      .catch((err) => {
+        console.log("Get lockers fail", err);
+      });
+  }, [typesCasierValue]);
+
+  const handleFinale = () => {
+    setFinalPage(true), setOpenForm(false);
+  };
   return (
     <View style={Styles.container}>
       <View
@@ -72,24 +113,6 @@ export default function ReserverForm({
           </Text>
         </View>
       </View>
-      {/* <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-          }}
-        >
-          <TextInput
-            style={Styles.input}
-            placeholder="Ma Position"
-            value={localisation}
-            onChangeText={(valueLocalisation) =>
-              setLocalisation(valueLocalisation)
-            }
-          />
-          <View style={{ marginLeft: "-10%", marginTop: 10 }}>
-            <SvgXml width="15" height="15" xml={geolocal} />
-          </View>
-        </View> */}
       <View>
         <View
           style={{
@@ -143,7 +166,6 @@ export default function ReserverForm({
             <SvgXml width="15" height="15" xml={arrow} />
           </View>
           <View style={{ width: "45%", marginLeft: "2%" }}>
-            {/**moment(retrait).format("D MMMM YYYY hh:mm") */}
             <TextInput
               placeholder="Retrait"
               style={{ paddingTop: 4 }}
@@ -166,11 +188,12 @@ export default function ReserverForm({
           </View>
         </View>
       </View>
-      <View style={{ display: "flex", flexDirection: "row", marginTop: "5%" }}>
+      <View style={{ display: "flex", flexDirection: "row", marginTop: 20 }}>
         <View
           style={{
             width: typesCasierValue != "init" ? "45%" : "100%",
             marginRight: "10%",
+            marginTop: 10,
           }}
         >
           <View>
@@ -188,38 +211,48 @@ export default function ReserverForm({
             />
           </View>
         </View>
-        {typesCasierValue != "init" && (
+        {typesCasierValue != "init" && getDataLocker.length > 0 ? (
           <View style={{ width: "45%" }}>
-            <SelectInput
-              style={Styles.input}
-              value={lengthLockers}
-              options={getDataLocker}
-              onValueChange={(valuez) => {
-                setLengthLockers(valuez);
-              }}
-            />
+            <Text>Longueur : {getDataLocker[0].height} cm</Text>
+            <Text>Largeur : {getDataLocker[0].width} cm</Text>
+            <Text>Profondeur : {getDataLocker[0].length} cm</Text>
+          </View>
+        ) : (
+          <View style={{ marginTop: 10 }}>
+            <Text>Il n'y a plus de casier!</Text>
           </View>
         )}
       </View>
-      <TouchableOpacity
-        style={{ marginTop: "5%" }}
-        onPress={() => handleLogin()}
-      >
-        <View style={Styles.buttonForm}>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              marginLeft: "15%",
-            }}
-          >
-            <Text style={{ color: "#ffffff" }}>Payer ma réservation</Text>
-            <View style={{ marginLeft: 10, marginTop: 2 }}>
-              <SvgXml width="15" height="15" xml={direction} />
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
+      <View style={{ marginTop: 20 }}>
+        <ButtonCirle
+          navigation={() => (isSelected ? handleFinale() : setFinalPage(false))}
+          name="Détail du panier"
+          disabled={!isSelected}
+          arrowSpace={15}
+          width={225}
+        />
+      </View>
     </View>
   );
+}
+
+{
+  /* <View
+    style={{
+      display: "flex",
+      flexDirection: "row",
+    }}
+  >
+    <TextInput
+      style={Styles.input}
+      placeholder="Ma Position"
+      value={localisation}
+      onChangeText={(valueLocalisation) =>
+        setLocalisation(valueLocalisation)
+      }
+    />
+    <View style={{ marginLeft: "-10%", marginTop: 10 }}>
+      <SvgXml width="15" height="15" xml={geolocal} />
+    </View>
+  </View> */
 }

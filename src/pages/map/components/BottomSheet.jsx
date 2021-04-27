@@ -10,19 +10,21 @@ import { Dimensions, StyleSheet, View, Keyboard } from "react-native";
 import ScrollBottomSheet from "react-native-scroll-bottom-sheet";
 import { ListItem } from "./ListItem";
 import ReserverForm from "./ListItem/form";
+import Market from "./ListItem/market";
 
 const windowHeight = Dimensions.get("window").height;
 
 export function BottomSheet({ onPressElement, navigation }) {
   const [openForm, setOpenForm] = useState(false);
+  const [finalPage, setFinalPage] = useState(false);
+  const [getIdLocation, setGetIdLocation] = useState("");
   const [firstnameLocal, setFirstnameLocal] = useState("");
   const [userLocal, setUserLocal] = useState([]);
   const [idLocal, setLocalId] = useState("");
 
   //Form STATE
-  // const [localisation, setLocalisation] = useState("");
   const [typesCasier, setTypesCasier] = useState(0);
-  const [typesCasierValue, setTypesCasierValue] = useState([]);
+  const [typesCasierValue, setTypesCasierValue] = useState([""]);
   const [lengthLockers, setLengthLockers] = useState(1);
   const [depot, setDepot] = useState("");
   const [retrait, setRetrait] = useState("");
@@ -46,65 +48,28 @@ export function BottomSheet({ onPressElement, navigation }) {
       });
   }, []);
 
-  useEffect(() => {
+  const handleShop = (price, name) => {
     axios
-      .get(`https://api.casety.fr/api/lockers/`, {
-        timeout: 9000,
+      .post("https://api.casety.fr/api/reservers", {
+        date_start: depot,
+        date_end: retrait,
+        userId: idLocal,
+        lockerId: lengthLockers,
       })
-      .then((res) => {
-        res.data.map((data) => {
-          typesCasierValue.filter((type) => {
-            axios
-              .get(`https://api.casety.fr/api/locker_types/types/${type}`, {
-                timeout: 9000,
-              })
-              .then((items) => {
-                if (data.locationId == item.id) {
-                  setGetDataLocker(
-                    items.data.map((data_item) => {
-                      if (data.locker_type_id === data_item.id) {
-                        return {
-                          value: data_item.id,
-                          label:
-                            " Height: " +
-                            data_item.height +
-                            " Width: " +
-                            data_item.width +
-                            " Lenght: " +
-                            data_item.length,
-                        };
-                      } else {
-                        setTypesCasierValue(["init"]);
-                      }
-                    })
-                  );
-                }
-              });
-          });
-        });
-      })
-      .catch((err) => {
-        console.log("Get lockers fail", err);
-      });
-  }, [typesCasierValue]);
-
-  const handleLogin = () => {
-    axios
-      .post(
-        "https://api.casety.fr/api/reservers",
-        {
-          date_start: depot,
-          date_end: retrait,
-          userId: idLocal,
-          lockerId: lengthLockers,
-        },
-        { timeout: 9000 }
-      )
       .then((item) => {
-        navigation.navigate("Shop");
+        axios
+          .get(`https://api.casety.fr/api/lockers/${item.data.lockerId}`)
+          .then((data) => {
+            const get = data.data;
+            console.log("Update to_rent success");
+            navigation.navigate("Shop", {
+              name,
+              price,
+            });
+          });
       })
       .catch((err) => {
-        console.log("Reservers fail", err);
+        console.log("Error booking  is not create =>", err);
       });
   };
 
@@ -156,20 +121,24 @@ export function BottomSheet({ onPressElement, navigation }) {
       keyExtractor={(i) => i.id}
       renderItem={({ item }) => (
         <View>
-          <View style={{ display: openForm ? "none" : "" }}>
-            <ListItem
-              openForm={openForm}
-              setOpenForm={setOpenForm}
-              item={item}
-              onPressElement={onPressElement}
-            />
-          </View>
-          {openForm && (
+          {!openForm && !finalPage && (
+            <View style={{ display: openForm ? "none" : "" }}>
+              <ListItem
+                openForm={openForm}
+                setOpenForm={setOpenForm}
+                item={item}
+                setGetIdLocation={setGetIdLocation}
+                onPressElement={onPressElement}
+              />
+            </View>
+          )}
+          {openForm && !finalPage && (
             <ReserverForm
               setOpenForm={setOpenForm}
               userLocal={userLocal}
               setFirstnameLocal={setFirstnameLocal}
               setLocalId={setLocalId}
+              getIdLocation={getIdLocation}
               firstnameLocal={firstnameLocal}
               depot={depot}
               showDepot={showDepot}
@@ -188,7 +157,19 @@ export function BottomSheet({ onPressElement, navigation }) {
               lengthLockers={lengthLockers}
               getDataLocker={getDataLocker}
               setLengthLockers={setLengthLockers}
-              handleLogin={handleLogin}
+              setGetDataLocker={setGetDataLocker}
+              setFinalPage={setFinalPage}
+            />
+          )}
+          {finalPage && !openForm && (
+            <Market
+              handleShop={handleShop}
+              setOpenForm={setOpenForm}
+              setFinalPage={setFinalPage}
+              depot={depot}
+              retrait={retrait}
+              idLocal={idLocal}
+              getDataLocker={getDataLocker}
             />
           )}
         </View>

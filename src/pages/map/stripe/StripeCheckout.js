@@ -29,6 +29,7 @@ export default class StripeCheckouts extends Component {
       .then((item) => {
         console.log("Stripe Success");
         this.setState({ stripeID: item.data.id });
+        console.log("item => ", item.data);
       })
       .catch(function (error) {
         if (!error.status) {
@@ -36,8 +37,8 @@ export default class StripeCheckouts extends Component {
         }
       });
   }
+
   render() {
-    console.log("rendering stripe webview");
     return (
       <StripeCheckout
         stripePublicKey={this.state.publicKey}

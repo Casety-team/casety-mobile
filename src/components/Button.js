@@ -9,7 +9,7 @@ const ButtonCirle = (props) => {
   return (
     <TouchableOpacity onPress={props.navigation}>
       <LinearGradient
-        colors={["#6693EB", "#3375F5", "#2063FA"]}
+        colors={props.disabled ? [""] : ["#6693EB", "#3375F5", "#2063FA"]}
         style={[styles.button, { width: props.width }]}
       >
         <View style={styles.row}>
