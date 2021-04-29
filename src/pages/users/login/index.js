@@ -1,4 +1,3 @@
-import { URL_API } from "@env";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { isLoadingToken } from "../../../../actions/isLoadingToken";
@@ -27,7 +26,7 @@ const Login = ({ navigation }) => {
   const handleLogin = () => {
     axios
       .post(
-        URL_API + "/auth/signin",
+        "https://api.casety.fr/auth/signin",
         {
           email,
           password,

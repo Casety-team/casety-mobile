@@ -1,4 +1,3 @@
-import { URL_API } from "@env";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
