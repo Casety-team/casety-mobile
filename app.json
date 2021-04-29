@@ -16,8 +16,13 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.mathieu.casety",
+      "buildNumber": "1.0.0",
       "config": {
         "googleMapsApiKey": "AIzaSyALm7PYEcroA7u6NsnbWlYbUwSfvkNj7gE"
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app casety."
       }
     },
     "android": {
