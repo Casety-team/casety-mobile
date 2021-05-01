@@ -7,6 +7,7 @@ import ListLocation from "./location";
 
 export function ListItem({
   item,
+  setOpenHome,
   setGetIdLocation,
   setOpenForm,
   onPressElement,
@@ -14,6 +15,7 @@ export function ListItem({
   return (
     <View>
       <ListLocation
+        setOpenHome={setOpenHome}
         setOpenForm={setOpenForm}
         setGetIdLocation={setGetIdLocation}
         onPressElement={onPressElement}

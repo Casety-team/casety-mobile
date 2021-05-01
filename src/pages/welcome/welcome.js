@@ -11,7 +11,7 @@ export default Welcome = ({ navigation }) => {
         <Image source={backgroundLogo} style={Styles.picture} />
         <Text style={Styles.title}>
           <Text style={Styles.span}>Prêt à </Text>
-          vous déplacer sans encombre ?
+          vous déplacer sans encombres ?
         </Text>
         <Text style={Styles.smallText}>Laissez vos bagages en sécurité !</Text>
         <View>

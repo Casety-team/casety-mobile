@@ -17,6 +17,7 @@ import arrowBack from "../../../../../assets/app/arrow-back.svg";
 import calendar from "../../../../../assets/app/calendar.svg";
 
 export default function ReserverForm({
+  setOpenHome,
   setOpenForm,
   userLocal,
   setFirstnameLocal,
@@ -90,7 +91,7 @@ export default function ReserverForm({
   }, [typesCasierValue]);
 
   const handleFinale = () => {
-    setFinalPage(true), setOpenForm(false);
+    setFinalPage(true), setOpenHome(false), setOpenForm(false);
   };
   return (
     <View style={Styles.container}>

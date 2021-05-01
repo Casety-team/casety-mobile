@@ -6,6 +6,7 @@ import { Styles } from "../ListItem.module";
 import { default as logo } from "../../../../../../assets/app/dark_logo.png";
 
 export default function ListLocation({
+  setOpenHome,
   setOpenForm,
   setGetIdLocation,
   onPressElement,
@@ -20,6 +21,7 @@ export default function ListLocation({
         Styles.item,
       ]}
       onPress={() => {
+        setOpenHome(false);
         setOpenForm(true);
         setGetIdLocation(item.id);
         onPressElement(item.id, item.latitude, item.longitude);

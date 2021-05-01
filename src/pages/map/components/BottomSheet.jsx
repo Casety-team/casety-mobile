@@ -1,6 +1,5 @@
 //BottomSheet.js
 import React, { useState, useEffect } from "react";
-
 import moment from "moment";
 import "moment/locale/fr";
 import deviceStorage from "../../../services/deviceStorage";
@@ -11,17 +10,23 @@ import ScrollBottomSheet from "react-native-scroll-bottom-sheet";
 import { ListItem } from "./ListItem";
 import ReserverForm from "./ListItem/form";
 import Market from "./ListItem/market";
+import CodePage from "./ListItem/code";
 
 const windowHeight = Dimensions.get("window").height;
 
-export function BottomSheet({ onPressElement, navigation }) {
+export function BottomSheet({
+  getReset,
+  onPressElement,
+  navigation,
+  reverserId,
+}) {
+  const [openHome, setOpenHome] = useState(true);
   const [openForm, setOpenForm] = useState(false);
   const [finalPage, setFinalPage] = useState(false);
   const [getIdLocation, setGetIdLocation] = useState("");
   const [firstnameLocal, setFirstnameLocal] = useState("");
   const [userLocal, setUserLocal] = useState([]);
   const [idLocal, setLocalId] = useState("");
-
   //Form STATE
   const [typesCasier, setTypesCasier] = useState(0);
   const [typesCasierValue, setTypesCasierValue] = useState([""]);
@@ -30,6 +35,21 @@ export function BottomSheet({ onPressElement, navigation }) {
   const [retrait, setRetrait] = useState("");
   const [getDataLocker, setGetDataLocker] = useState([]);
   const [locationsData, setLocationsData] = useState([]);
+
+  const [idReserver, setIdReserver] = useState("");
+  const [idLocker, setIdLocker] = useState("");
+
+  useEffect(() => {
+    if (getReset) {
+      setOpenHome(false);
+      setOpenForm(false);
+      setFinalPage(false);
+    } else {
+      setOpenHome(true);
+      setOpenForm(false);
+      setFinalPage(false);
+    }
+  }, []);
 
   useEffect(() => {
     deviceStorage
@@ -60,9 +80,12 @@ export function BottomSheet({ onPressElement, navigation }) {
         axios
           .get(`https://api.casety.fr/api/lockers/${item.data.lockerId}`)
           .then((data) => {
-            const get = data.data;
             console.log("Update to_rent success");
+            setIdReserver(item.data.id);
+            setIdLocker(item.data.lockerId);
             navigation.navigate("Shop", {
+              idReserver: item.data.id,
+              idLocker: item.data.lockerId,
               name,
               price,
             });
@@ -111,7 +134,7 @@ export function BottomSheet({ onPressElement, navigation }) {
     }, 250);
   };
 
-  return (
+  return !getReset ? (
     <ScrollBottomSheet
       componentType="FlatList"
       snapPoints={[100, "50%", windowHeight - 200]}
@@ -121,9 +144,10 @@ export function BottomSheet({ onPressElement, navigation }) {
       keyExtractor={(i) => i.id}
       renderItem={({ item }) => (
         <View>
-          {!openForm && !finalPage && (
+          {openHome && !openForm && !finalPage && (
             <View style={{ display: openForm ? "none" : "" }}>
               <ListItem
+                setOpenHome={setOpenHome}
                 openForm={openForm}
                 setOpenForm={setOpenForm}
                 item={item}
@@ -132,8 +156,9 @@ export function BottomSheet({ onPressElement, navigation }) {
               />
             </View>
           )}
-          {openForm && !finalPage && (
+          {!openHome && openForm && !finalPage && (
             <ReserverForm
+              setOpenHome={setOpenHome}
               setOpenForm={setOpenForm}
               userLocal={userLocal}
               setFirstnameLocal={setFirstnameLocal}
@@ -161,8 +186,9 @@ export function BottomSheet({ onPressElement, navigation }) {
               setFinalPage={setFinalPage}
             />
           )}
-          {finalPage && !openForm && (
+          {!openHome && finalPage && !openForm && (
             <Market
+              setOpenHome={setOpenHome}
               handleShop={handleShop}
               setOpenForm={setOpenForm}
               setFinalPage={setFinalPage}
@@ -172,6 +198,27 @@ export function BottomSheet({ onPressElement, navigation }) {
               getDataLocker={getDataLocker}
             />
           )}
+        </View>
+      )}
+      contentContainerStyle={styles.contentContainerStyle}
+    />
+  ) : (
+    <ScrollBottomSheet
+      componentType="FlatList"
+      snapPoints={[100, "50%", windowHeight - 200]}
+      initialSnapIndex={1}
+      renderHandle={() => <View style={[styles.header, { marginTop: 250 }]} />}
+      data={locationsData}
+      keyExtractor={(i) => i.id}
+      renderItem={({ item }) => (
+        <View>
+          <CodePage
+            idReserver={idReserver}
+            navigation={navigation}
+            setOpenHome={setOpenHome}
+            setOpenForm={setOpenForm}
+            setFinalPage={setFinalPage}
+          />
         </View>
       )}
       contentContainerStyle={styles.contentContainerStyle}

@@ -1,4 +1,3 @@
-import { URL_API } from "@env";
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 import axios from "axios";
@@ -15,7 +14,7 @@ const Profile = () => {
 
   const refreshUser = () => {
     axios
-      .get(URL_API + `/user/${id}`, { timeout: 9000 })
+      .get(`https://api.casety.fr/api/user/${id}`)
       .then(async (item) => {
         setData([item.data]);
       })

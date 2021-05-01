@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "../../pages/home";
 import ProfilePage from "../../pages/users/profile";
 import ShopPage from "../../pages/shop";
+import GenerePage from "../../pages/genere";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,13 @@ export default function HomeScreen({ navigation }) {
       <Stack.Screen
         name="Shop"
         component={ShopPage}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Genere"
+        component={GenerePage}
         options={{
           headerShown: false,
         }}

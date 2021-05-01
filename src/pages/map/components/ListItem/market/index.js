@@ -10,6 +10,7 @@ import profilCity from "./pictures/profilCity.jpeg";
 import direction from "../../../../../assets/app/direction.svg";
 
 export default function Market({
+  setOpenHome,
   handleShop,
   setOpenForm,
   setFinalPage,
@@ -56,7 +57,7 @@ export default function Market({
       >
         <TouchableOpacity
           onPress={() => {
-            setOpenForm(true), setFinalPage(false);
+            setOpenForm(true), setOpenHome(false), setFinalPage(false);
           }}
         >
           <View style={Styles.buttonTop2}>

@@ -11,14 +11,16 @@ import { TopBar } from "./map/components/TopBar";
 import { CustomMarker } from "./map/config/CustomMarker";
 import { BottomSheet } from "./map/components/BottomSheet";
 
-export default function Home({ navigation }) {
+export default function Home({ route, navigation }) {
+  let getReset = route.params == undefined ? false : route.params.reset;
+  let reverserId = route.params == undefined ? "" : route.params.reverserId;
+
   const {
     mapRef,
     selectedMarker,
     handleNavigateToPoint,
     handelResetInitialPosition,
   } = useMap();
-
   const [locationsData, setLocationsData] = useState([]);
 
   useEffect(() => {
@@ -65,7 +67,10 @@ export default function Home({ navigation }) {
             </View>
           ))}
       </MapView>
+
       <BottomSheet
+        reverserId={reverserId}
+        getReset={getReset}
         navigation={navigation}
         onPressElement={handleNavigateToPoint}
       />

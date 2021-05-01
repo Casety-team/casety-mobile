@@ -1,1 +1,2 @@
 export const IS_LOADING_TOKEN = "IS_LOADING_TOKEN";
+export const IS_LOADING_RESET = "IS_LOADING_RESET";

@@ -26,7 +26,7 @@ const Login = ({ navigation }) => {
   const handleLogin = () => {
     axios
       .post(
-        "https://api.casety.fr/auth/signin",
+        "https://api.casety.fr/api/auth/signin",
         {
           email,
           password,
@@ -34,8 +34,8 @@ const Login = ({ navigation }) => {
         { timeout: 10000 }
       )
       .then(async (item) => {
-        //Add user data in localStorage
         console.log("Login Success");
+        //Add user data in localStorage
         await deviceStorage.savekey(item.data);
         setSendInLocalStorage(true);
       })
