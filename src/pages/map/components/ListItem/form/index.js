@@ -25,11 +25,13 @@ export default function ReserverForm({
   getIdLocation,
   firstnameLocal,
   depot,
+  setDepot,
   showDepot,
   showDateTimePickerDepot,
   handleDatePickedDepot,
   hideDateTimePickerDepot,
   retrait,
+  setRetrait,
   showRetrait,
   showDateTimePickerRetrait,
   handleDatePickedRetrait,
@@ -91,6 +93,10 @@ export default function ReserverForm({
   }, [typesCasierValue]);
 
   const handleFinale = () => {
+    setDepot(""),
+      setRetrait(""),
+      setTypesCasier(0),
+      setTypesCasierValue(["init"]);
     setFinalPage(true), setOpenHome(false), setOpenForm(false);
   };
   return (
@@ -102,7 +108,12 @@ export default function ReserverForm({
           marginLeft: "-12%",
         }}
       >
-        <TouchableOpacity onPress={() => setOpenForm(false)}>
+        <TouchableOpacity
+          onPress={() => {
+            setOpenHome(true);
+            setOpenForm(false);
+          }}
+        >
           <View style={Styles.buttonTop}>
             <SvgXml width="15" height="15" xml={arrowBack} />
           </View>
@@ -235,25 +246,4 @@ export default function ReserverForm({
       </View>
     </View>
   );
-}
-
-{
-  /* <View
-    style={{
-      display: "flex",
-      flexDirection: "row",
-    }}
-  >
-    <TextInput
-      style={Styles.input}
-      placeholder="Ma Position"
-      value={localisation}
-      onChangeText={(valueLocalisation) =>
-        setLocalisation(valueLocalisation)
-      }
-    />
-    <View style={{ marginLeft: "-10%", marginTop: 10 }}>
-      <SvgXml width="15" height="15" xml={geolocal} />
-    </View>
-  </View> */
 }

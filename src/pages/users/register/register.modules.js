@@ -10,7 +10,6 @@ export const Styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     marginLeft: "46%",
-    marginTop: "20%",
   },
   svgRight: {
     marginRight: "2%",

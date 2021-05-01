@@ -21,6 +21,7 @@ export default function Home({ route, navigation }) {
     handleNavigateToPoint,
     handelResetInitialPosition,
   } = useMap();
+
   const [locationsData, setLocationsData] = useState([]);
 
   useEffect(() => {
@@ -56,10 +57,9 @@ export default function Home({ route, navigation }) {
       >
         {locationsData &&
           locationsData.map((marker) => (
-            <View>
+            <View key={Number(marker.id)}>
               <CustomMarker
-                key={marker.id}
-                id={marker.id}
+                id={Number(marker.id)}
                 selectedMarker={selectedMarker}
                 latitude={Number(marker.latitude)}
                 longitude={Number(marker.longitude)}

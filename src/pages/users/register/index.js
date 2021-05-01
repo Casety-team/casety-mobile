@@ -11,6 +11,7 @@ import SecondPage from "./SecondPage";
 import FirstPage from "./FirstPage";
 import { Styles } from "./register.modules";
 
+import button_back_white from "../../../assets/app/button_back_white.svg";
 import ellipseClear from "../pictures/ellipse-clear.svg";
 import ellipseComplet from "../pictures/ellipse-complet.svg";
 
@@ -75,15 +76,37 @@ const Register = ({ navigation }) => {
   };
   return (
     <View style={Styles.container}>
-      <View style={Styles.contentEllipse}>
-        <SvgXml
-          style={Styles.svgRight}
-          xml={ellipseActive ? ellipseClear : ellipseComplet}
-        />
-        <SvgXml
-          style={Styles.svgLeft}
-          xml={ellipseActive ? ellipseComplet : ellipseClear}
-        />
+      <View>
+        <View
+          style={{
+            marginLeft: "4%",
+            marginTop: "20%",
+          }}
+        >
+          <SvgXml
+            style={{
+              display: !ellipseActive ? "none" : "",
+              marginLeft: 20,
+            }}
+            xml={button_back_white}
+            onPress={() => setEllipseActive(false)}
+          />
+        </View>
+        <View
+          style={[
+            Styles.contentEllipse,
+            { marginTop: !ellipseActive ? 11 : -20 },
+          ]}
+        >
+          <SvgXml
+            style={Styles.svgRight}
+            xml={ellipseActive ? ellipseClear : ellipseComplet}
+          />
+          <SvgXml
+            style={Styles.svgLeft}
+            xml={ellipseActive ? ellipseComplet : ellipseClear}
+          />
+        </View>
       </View>
       <View style={Styles.card}>
         <View style={Styles.content}>

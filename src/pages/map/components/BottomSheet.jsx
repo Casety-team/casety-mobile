@@ -7,22 +7,18 @@ import deviceStorage from "../../../services/deviceStorage";
 import axios from "axios";
 import { Dimensions, StyleSheet, View, Keyboard } from "react-native";
 import ScrollBottomSheet from "react-native-scroll-bottom-sheet";
-import { ListItem } from "./ListItem";
+import ListLocation from "./ListItem/location";
 import ReserverForm from "./ListItem/form";
 import Market from "./ListItem/market";
 import CodePage from "./ListItem/code";
 
 const windowHeight = Dimensions.get("window").height;
 
-export function BottomSheet({
-  getReset,
-  onPressElement,
-  navigation,
-  reverserId,
-}) {
+export function BottomSheet({ getReset, onPressElement, navigation }) {
   const [openHome, setOpenHome] = useState(true);
   const [openForm, setOpenForm] = useState(false);
   const [finalPage, setFinalPage] = useState(false);
+
   const [getIdLocation, setGetIdLocation] = useState("");
   const [firstnameLocal, setFirstnameLocal] = useState("");
   const [userLocal, setUserLocal] = useState([]);
@@ -146,7 +142,7 @@ export function BottomSheet({
         <View>
           {openHome && !openForm && !finalPage && (
             <View style={{ display: openForm ? "none" : "" }}>
-              <ListItem
+              <ListLocation
                 setOpenHome={setOpenHome}
                 openForm={openForm}
                 setOpenForm={setOpenForm}
@@ -168,6 +164,8 @@ export function BottomSheet({
               depot={depot}
               showDepot={showDepot}
               showDateTimePickerDepot={showDateTimePickerDepot}
+              setDepot={setDepot}
+              setRetrait={setRetrait}
               handleDatePickedDepot={handleDatePickedDepot}
               hideDateTimePickerDepot={hideDateTimePickerDepot}
               retrait={retrait}

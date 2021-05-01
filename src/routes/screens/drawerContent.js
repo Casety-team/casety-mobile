@@ -42,10 +42,6 @@ export function DrawerContent(props) {
                 props.navigation.navigate("SupportScreen");
               }}
             />
-            <DrawerItem
-              label="Toggle drawer"
-              onPress={() => props.navigation.toggleDrawer()}
-            />
           </Drawer.Section>
         </View>
       </DrawerContentScrollView>
