@@ -23,6 +23,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
   const [firstnameLocal, setFirstnameLocal] = useState("");
   const [userLocal, setUserLocal] = useState([]);
   const [idLocal, setLocalId] = useState("");
+
   //Form STATE
   const [typesCasier, setTypesCasier] = useState(0);
   const [typesCasierValue, setTypesCasierValue] = useState([""]);
@@ -55,7 +56,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
 
   useEffect(() => {
     axios
-      .get("https://api.casety.fr/api/locations/", { timeout: 9000 })
+      .get("https://api.casety.fr/api/locations/")
       .then((item) => {
         setLocationsData(item.data);
       })
@@ -187,11 +188,15 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
           {!openHome && finalPage && !openForm && (
             <Market
               setOpenHome={setOpenHome}
-              handleShop={handleShop}
               setOpenForm={setOpenForm}
               setFinalPage={setFinalPage}
+              handleShop={handleShop}
               depot={depot}
+              setDepot={setDepot}
               retrait={retrait}
+              setRetrait={setRetrait}
+              setTypesCasier={setTypesCasier}
+              setTypesCasierValue={setTypesCasierValue}
               idLocal={idLocal}
               getDataLocker={getDataLocker}
             />

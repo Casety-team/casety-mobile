@@ -21,7 +21,6 @@ const CodePage = ({
     axios
       .get(`https://api.casety.fr/stripe/charge/genere/${idReserver}`)
       .then((item) => {
-        console.log("item =>", item.data);
         item.data.map((item) => setDataBasket(item.code_unlock));
         axios
           .get(`https://api.casety.fr/api/reservers/${idReserver}`)

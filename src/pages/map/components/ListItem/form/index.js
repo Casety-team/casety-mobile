@@ -4,16 +4,14 @@ import moment from "moment";
 import "moment/locale/fr";
 import axios from "axios";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import SelectInput from "react-native-select-input-ios";
+import RNPickerSelect from "react-native-picker-select";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import ButtonCirle from "../../../../../components/Button";
 
 import { Styles } from "../ListItem.module";
 
-import direction from "../../../../../assets/app/direction.svg";
 import arrow from "../../../../../assets/app/arrow.svg";
 import arrowBack from "../../../../../assets/app/arrow-back.svg";
-//import geolocal from "../../../../../assets/app/geolocal.svg";
 import calendar from "../../../../../assets/app/calendar.svg";
 
 export default function ReserverForm({
@@ -46,8 +44,8 @@ export default function ReserverForm({
 }) {
   const [isSelected, setSelected] = useState(false);
   const tCasier = [
-    { value: 0, label: "Types de casier" },
-    { value: 1, label: "Casier Vélo" },
+    { value: 0, label: "Casier Vélo" },
+    { value: 1, label: "Casier Valise" },
     { value: 2, label: "Casier Sac à dos" },
   ];
 
@@ -59,7 +57,7 @@ export default function ReserverForm({
 
   useEffect(() => {
     if (depot && retrait) {
-      if (typesCasier != 0) {
+      if (typesCasier != null) {
         setSelected(true);
       } else {
         setSelected(false);
@@ -93,10 +91,6 @@ export default function ReserverForm({
   }, [typesCasierValue]);
 
   const handleFinale = () => {
-    setDepot(""),
-      setRetrait(""),
-      setTypesCasier(0),
-      setTypesCasierValue(["init"]);
     setFinalPage(true), setOpenHome(false), setOpenForm(false);
   };
   return (
@@ -208,16 +202,17 @@ export default function ReserverForm({
             marginTop: 10,
           }}
         >
-          <View>
-            <SelectInput
-              style={Styles.input}
-              value={typesCasier}
-              options={tCasier}
+          <View style={Styles.input}>
+            <RNPickerSelect
+              items={tCasier}
               onValueChange={(values) => {
-                values != 0
+                values != null
                   ? values == 1
-                    ? (setTypesCasier(values), setTypesCasierValue(["bikes"]))
-                    : (setTypesCasier(values), setTypesCasierValue(["lockers"]))
+                    ? (setTypesCasier(values), setTypesCasierValue(["lockers"]))
+                    : values == 2
+                    ? (setTypesCasier(values),
+                      setTypesCasierValue(["suitcases"]))
+                    : (setTypesCasier(values), setTypesCasierValue(["bikes"]))
                   : (setTypesCasier(values), setTypesCasierValue(["init"]));
               }}
             />

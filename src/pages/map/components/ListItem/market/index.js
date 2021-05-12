@@ -7,7 +7,6 @@ import { Styles } from "../ListItem.module";
 
 import arrowBack from "../../../../../assets/app/arrow-back.svg";
 import profilCity from "./pictures/profilCity.jpeg";
-import direction from "../../../../../assets/app/direction.svg";
 
 export default function Market({
   setOpenHome,
@@ -15,7 +14,11 @@ export default function Market({
   setOpenForm,
   setFinalPage,
   depot,
+  setDepot,
   retrait,
+  setRetrait,
+  setTypesCasier,
+  setTypesCasierValue,
   idLocal,
   getDataLocker,
 }) {
@@ -57,6 +60,10 @@ export default function Market({
       >
         <TouchableOpacity
           onPress={() => {
+            setDepot("");
+            setRetrait("");
+            setTypesCasier(0);
+            setTypesCasierValue(["init"]);
             setOpenForm(true), setOpenHome(false), setFinalPage(false);
           }}
         >

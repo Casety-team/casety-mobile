@@ -56,7 +56,6 @@ export default class StripeCheckouts extends Component {
           console.log(
             `Stripe checkout session succeeded. ${this.state.reserverId}.`
           );
-          console.log(this.state.lockerId);
           this.props.navigation.navigate("Genere", {
             lockerId: this.state.lockerId,
             reserverId: this.state.reserverId,

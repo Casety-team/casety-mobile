@@ -22,7 +22,7 @@ const GenerePage = ({ route, navigation }) => {
         item.data.map((item) => setCodeData(item.code_unlock));
       })
       .catch((err) => {
-        console.log("Get Location fail =>", err);
+        console.log("Get Code secret fail =>", err);
       });
   }, []);
 
