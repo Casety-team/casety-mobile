@@ -17,9 +17,6 @@ import calendar from "../../../../../assets/app/calendar.svg";
 export default function ReserverForm({
   setOpenHome,
   setOpenForm,
-  userLocal,
-  setFirstnameLocal,
-  setLocalId,
   getIdLocation,
   firstnameLocal,
   depot,
@@ -50,12 +47,6 @@ export default function ReserverForm({
   ];
 
   useEffect(() => {
-    userLocal.map(function (item) {
-      setFirstnameLocal(item.firstname), setLocalId(item.id);
-    });
-  }, []);
-
-  useEffect(() => {
     if (depot && retrait) {
       if (typesCasier != null) {
         setSelected(true);
@@ -65,34 +56,35 @@ export default function ReserverForm({
     } else {
       setSelected(false);
     }
-  }, [depot, retrait, getDataLocker]);
+  }, [depot, retrait]);
 
   useEffect(() => {
     axios
       .get(`https://api.casety.fr/api/lockers/`)
-      .then((res) => {
-        res.data.map((data) => {
+      .then(async (res) => {
+        await res.data.map((data) => {
           typesCasierValue.filter((type) => {
             if (type == "") {
               setTypesCasierValue(["init"]);
             } else if (data.locationId == getIdLocation) {
               axios
                 .get(`https://api.casety.fr/api/locker_types/types/${type}`)
-                .then((items) => {
-                  setGetDataLocker(items.data);
+                .then(async (items) => {
+                  await setGetDataLocker(items.data);
                 });
             }
           });
         });
       })
-      .catch((err) => {
-        console.log("Get lockers fail", err);
+      .catch((error) => {
+        console.log("Get lockers fail", error);
       });
   }, [typesCasierValue]);
 
   const handleFinale = () => {
     setFinalPage(true), setOpenHome(false), setOpenForm(false);
   };
+
   return (
     <View style={Styles.container}>
       <View
@@ -184,7 +176,7 @@ export default function ReserverForm({
               onFocus={showDateTimePickerRetrait}
             />
             <DateTimePicker
-              date={retrait ? new Date(retrait) : new Date()}
+              //date={retrait ? new Date(retrait) : new Date()}
               isVisible={showRetrait}
               local="fr-FR"
               mode={"datetime"}

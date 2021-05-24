@@ -56,18 +56,19 @@ export default function Home({ route, navigation }) {
         mapType="standard"
       >
         {locationsData &&
-          locationsData.map((marker) => (
-            <View key={Number(marker.id)}>
-              <CustomMarker
-                id={Number(marker.id)}
-                selectedMarker={selectedMarker}
-                latitude={Number(marker.latitude)}
-                longitude={Number(marker.longitude)}
-              />
-            </View>
-          ))}
+          locationsData.map((marker) => {
+            return (
+              <View key={Number(marker.id)}>
+                <CustomMarker
+                  id={Number(marker.id)}
+                  selectedMarker={selectedMarker}
+                  latitude={Number(marker.latitude)}
+                  longitude={Number(marker.longitude)}
+                />
+              </View>
+            );
+          })}
       </MapView>
-
       <BottomSheet
         reverserId={reverserId}
         getReset={getReset}

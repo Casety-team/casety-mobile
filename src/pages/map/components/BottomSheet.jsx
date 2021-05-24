@@ -21,7 +21,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
 
   const [getIdLocation, setGetIdLocation] = useState("");
   const [firstnameLocal, setFirstnameLocal] = useState("");
-  const [userLocal, setUserLocal] = useState([]);
   const [idLocal, setLocalId] = useState("");
 
   //Form STATE
@@ -37,6 +36,12 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
   const [idLocker, setIdLocker] = useState("");
 
   useEffect(() => {
+    deviceStorage.getMyObject().then(async (item) => {
+      await setFirstnameLocal(item.firstname), setLocalId(item.id);
+    });
+  }, []);
+
+  useEffect(() => {
     if (getReset) {
       setOpenHome(false);
       setOpenForm(false);
@@ -49,12 +54,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
   }, []);
 
   useEffect(() => {
-    deviceStorage
-      .getMyObject()
-      .then(async (item) => await setUserLocal([item]));
-  }, []);
-
-  useEffect(() => {
     axios
       .get("https://api.casety.fr/api/locations/")
       .then((item) => {
@@ -63,7 +62,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
       .catch((err) => {
         console.log("Location fail", err);
       });
-  }, []);
+  }, [locationsData != ""]);
 
   const handleShop = (price, name) => {
     axios
@@ -107,9 +106,10 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
     var stillUtc = moment.utc(value).toDate();
     var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
     setDepot(local);
-    setTimeout(() => {
-      hideDateTimePickerDepot();
-    }, 250);
+    hideDateTimePickerDepot();
+    // setTimeout(() => {
+    //   hideDateTimePickerDepot();
+    // }, 250);
   };
 
   //Retrait
@@ -126,9 +126,10 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
     var stillUtc = moment.utc(value).toDate();
     var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
     setRetrait(local);
-    setTimeout(() => {
-      hideDateTimePickerRetrait();
-    }, 250);
+    hideDateTimePickerRetrait();
+    // setTimeout(() => {
+    //   hideDateTimePickerRetrait();
+    // }, 250);
   };
 
   return !getReset ? (
@@ -138,7 +139,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
       initialSnapIndex={1}
       renderHandle={() => <View style={styles.header} />}
       data={locationsData}
-      keyExtractor={(i) => i.id}
+      keyExtractor={(i) => i.id.toString()}
       renderItem={({ item }) => (
         <View>
           {openHome && !openForm && !finalPage && (
@@ -157,9 +158,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
             <ReserverForm
               setOpenHome={setOpenHome}
               setOpenForm={setOpenForm}
-              userLocal={userLocal}
-              setFirstnameLocal={setFirstnameLocal}
-              setLocalId={setLocalId}
               getIdLocation={getIdLocation}
               firstnameLocal={firstnameLocal}
               depot={depot}

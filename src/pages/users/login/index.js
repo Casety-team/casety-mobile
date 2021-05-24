@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { isLoadingToken } from "../../../../actions/isLoadingToken";
 import axios from "axios";
@@ -14,6 +14,7 @@ import { Styles } from "./login.modules";
 
 import eye_open from "../pictures/eye_open.svg";
 import eye_close from "../pictures/eye_close.svg";
+import { onScrollEvent } from "react-native-redash/lib/module/v1";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("drapalamathieu95@gmail.com");
@@ -22,6 +23,14 @@ const Login = ({ navigation }) => {
   const [sendInLocalStorage, setSendInLocalStorage] = useState(false);
 
   const dispatch = useDispatch();
+
+  //Add value in redux for success request POST
+  useEffect(() => {
+    if (sendInLocalStorage) {
+      dispatch(isLoadingToken(true));
+      setSendInLocalStorage(false);
+    }
+  }, [sendInLocalStorage]);
 
   const handleLogin = () => {
     axios
@@ -44,12 +53,6 @@ const Login = ({ navigation }) => {
         console.log("Login Fail =>", err);
       });
   };
-
-  //Add value in redux for success request POST
-  if (sendInLocalStorage) {
-    dispatch(isLoadingToken(true));
-    setSendInLocalStorage(false);
-  }
 
   return (
     <View style={Styles.container}>
