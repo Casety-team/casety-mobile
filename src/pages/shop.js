@@ -1,5 +1,5 @@
 import React from "react";
-import StripeCheckouts from "../pages/map/stripe/StripeCheckout";
+import StripeCheckouts from "../components/map/stripe/StripeCheckout";
 const Shop = ({ route, navigation }) => {
   const { idReserver, idLocker, name, price } = route.params;
 

@@ -3,9 +3,16 @@ import { SvgXml } from "react-native-svg";
 import moment from "moment";
 import "moment/locale/fr";
 import axios from "axios";
+import deviceStorage from "../../../../../services/deviceStorage";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import RNPickerSelect from "react-native-picker-select";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Keyboard,
+} from "react-native";
 import ButtonCirle from "../../../../../components/Button";
 
 import { Styles } from "../ListItem.module";
@@ -18,33 +25,32 @@ export default function ReserverForm({
   setOpenHome,
   setOpenForm,
   getIdLocation,
-  firstnameLocal,
   depot,
-  setDepot,
-  showDepot,
-  showDateTimePickerDepot,
-  handleDatePickedDepot,
-  hideDateTimePickerDepot,
   retrait,
+  setDepot,
   setRetrait,
-  showRetrait,
-  showDateTimePickerRetrait,
-  handleDatePickedRetrait,
-  hideDateTimePickerRetrait,
   typesCasier,
-  setTypesCasier,
   typesCasierValue,
+  setTypesCasier,
   setTypesCasierValue,
   getDataLocker,
   setGetDataLocker,
   setFinalPage,
 }) {
   const [isSelected, setSelected] = useState(false);
+  const [typeUpdateLockers, setTypeUpdateLockers] = useState("");
+  const [firstnameLocal, setFirstnameLocal] = useState("");
   const tCasier = [
     { value: 0, label: "Casier Vélo" },
     { value: 1, label: "Casier Valise" },
     { value: 2, label: "Casier Sac à dos" },
   ];
+
+  useEffect(() => {
+    deviceStorage.getMyObject().then(async (item) => {
+      await setFirstnameLocal(item.firstname);
+    });
+  }, []);
 
   useEffect(() => {
     if (depot && retrait) {
@@ -59,27 +65,52 @@ export default function ReserverForm({
   }, [depot, retrait]);
 
   useEffect(() => {
-    axios
-      .get(`https://api.casety.fr/api/lockers/`)
-      .then(async (res) => {
-        await res.data.mapLimit((data) => {
-          typesCasierValue.filter(async (type) => {
-            if (type == "") {
-              setTypesCasierValue(["init"]);
-            } else if (data.locationId == getIdLocation) {
-              await axios
-                .get(`https://api.casety.fr/api/locker_types/types/${type}`)
-                .then(async (items) => {
-                  await setGetDataLocker(items.data);
-                });
-            }
+    typesCasierValue.filter(async (type) => {
+      if (type == "") {
+        setTypesCasierValue(["init"]);
+      } else {
+        await axios
+          .get(`https://api.casety.fr/api/locker_types/types/${type}`)
+          .then(async (items) => {
+            await setGetDataLocker(items.data);
           });
-        });
-      })
-      .catch((error) => {
-        console.log("Get lockers fail", error);
-      });
+      }
+    });
   }, [typesCasierValue]);
+
+  //Depot
+  const [showDepot, setShowDepot] = useState(false);
+  const showDateTimePickerDepot = () => {
+    setShowDepot(true);
+    Keyboard.dismiss();
+  };
+  const hideDateTimePickerDepot = () => {
+    setShowDepot(false);
+  };
+  const handleDatePickedDepot = (value) => {
+    moment().locale("fr");
+    var stillUtc = moment.utc(value).toDate();
+    var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
+    setDepot(local);
+    hideDateTimePickerDepot();
+  };
+
+  //Retrait
+  const [showRetrait, setShowRetrait] = useState(false);
+  const showDateTimePickerRetrait = () => {
+    setShowRetrait(true);
+    Keyboard.dismiss();
+  };
+  const hideDateTimePickerRetrait = () => {
+    setShowRetrait(false);
+  };
+  const handleDatePickedRetrait = (value) => {
+    moment().locale("fr");
+    var stillUtc = moment.utc(value).toDate();
+    var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
+    setRetrait(local);
+    hideDateTimePickerRetrait();
+  };
 
   const handleFinale = () => {
     setFinalPage(true), setOpenHome(false), setOpenForm(false);
@@ -135,6 +166,7 @@ export default function ReserverForm({
           </View>
           <View style={{ width: "45%", marginLeft: "2%" }}>
             <TextInput
+              id="depot"
               style={{ paddingTop: 4 }}
               placeholder="Depôt"
               caretHidden
@@ -146,9 +178,7 @@ export default function ReserverForm({
               onFocus={showDateTimePickerDepot}
             />
             <DateTimePicker
-              date={depot ? new Date(depot) : new Date()}
               isVisible={showDepot}
-              local="fr-FR"
               mode={"datetime"}
               onConfirm={handleDatePickedDepot}
               onCancel={hideDateTimePickerDepot}
@@ -165,6 +195,7 @@ export default function ReserverForm({
           </View>
           <View style={{ width: "45%", marginLeft: "2%" }}>
             <TextInput
+              id="retrait"
               placeholder="Retrait"
               style={{ paddingTop: 4 }}
               value={
@@ -176,9 +207,7 @@ export default function ReserverForm({
               onFocus={showDateTimePickerRetrait}
             />
             <DateTimePicker
-              date={retrait ? new Date(retrait) : new Date()}
               isVisible={showRetrait}
-              local="fr-FR"
               mode={"datetime"}
               onConfirm={handleDatePickedRetrait}
               onCancel={hideDateTimePickerRetrait}

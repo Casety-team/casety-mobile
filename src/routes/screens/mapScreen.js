@@ -28,10 +28,10 @@ export default function HomeScreen({ navigation }) {
         }}
       />
       <Stack.Screen
-        name="Market"
+        name="Basket"
         component={BasketPage}
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
       />
       <Stack.Screen

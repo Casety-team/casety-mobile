@@ -5,11 +5,11 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 //Components
 import { StyleSheet, View, Dimensions } from "react-native";
 //Map Components
-import { useMap } from "./map/functions/useMap";
-import { mapStyle } from "./map/functions/mapStyle";
-import { TopBar } from "./map/components/TopBar";
-import { CustomMarker } from "./map/config/CustomMarker";
-import { BottomSheet } from "./map/components/BottomSheet";
+import { useMap } from "../components/map/functions/useMap";
+import { mapStyle } from "../components/map/functions/mapStyle";
+import { TopBar } from "../components/map/components/TopBar";
+import { CustomMarker } from "../components/map/config/CustomMarker";
+import { BottomSheet } from "../components/map/components/BottomSheet";
 
 export default function Home({ route, navigation }) {
   let getReset = route.params == undefined ? false : route.params.reset;

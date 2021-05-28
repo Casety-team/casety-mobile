@@ -5,7 +5,7 @@ import "moment/locale/fr";
 import deviceStorage from "../../../services/deviceStorage";
 
 import axios from "axios";
-import { Dimensions, StyleSheet, View, Keyboard } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import ScrollBottomSheet from "react-native-scroll-bottom-sheet";
 import ListLocation from "./ListItem/location";
 import ReserverForm from "./ListItem/form";
@@ -20,7 +20,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
   const [finalPage, setFinalPage] = useState(false);
 
   const [getIdLocation, setGetIdLocation] = useState("");
-  const [firstnameLocal, setFirstnameLocal] = useState("");
   const [idLocal, setLocalId] = useState("");
 
   //Form STATE
@@ -37,7 +36,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
 
   useEffect(() => {
     deviceStorage.getMyObject().then(async (item) => {
-      await setFirstnameLocal(item.firstname), setLocalId(item.id);
+      await setLocalId(item.id);
     });
   }, []);
 
@@ -92,40 +91,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
       });
   };
 
-  //Depot
-  const [showDepot, setShowDepot] = useState(false);
-  const showDateTimePickerDepot = () => {
-    setShowDepot(true);
-    Keyboard.dismiss();
-  };
-  const hideDateTimePickerDepot = () => {
-    setShowDepot(false);
-  };
-  const handleDatePickedDepot = (value) => {
-    moment().locale("fr");
-    var stillUtc = moment.utc(value).toDate();
-    var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
-    setDepot(local);
-    hideDateTimePickerDepot();
-  };
-
-  //Retrait
-  const [showRetrait, setShowRetrait] = useState(false);
-  const showDateTimePickerRetrait = () => {
-    setShowRetrait(true);
-    Keyboard.dismiss();
-  };
-  const hideDateTimePickerRetrait = () => {
-    setShowRetrait(false);
-  };
-  const handleDatePickedRetrait = (value) => {
-    moment().locale("fr");
-    var stillUtc = moment.utc(value).toDate();
-    var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
-    setRetrait(local);
-    hideDateTimePickerRetrait();
-  };
-
   return !getReset ? (
     <ScrollBottomSheet
       componentType="FlatList"
@@ -153,27 +118,18 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
               setOpenHome={setOpenHome}
               setOpenForm={setOpenForm}
               getIdLocation={getIdLocation}
-              firstnameLocal={firstnameLocal}
               depot={depot}
-              showDepot={showDepot}
-              showDateTimePickerDepot={showDateTimePickerDepot}
               setDepot={setDepot}
               setRetrait={setRetrait}
-              handleDatePickedDepot={handleDatePickedDepot}
-              hideDateTimePickerDepot={hideDateTimePickerDepot}
               retrait={retrait}
-              showRetrait={showRetrait}
-              showDateTimePickerRetrait={showDateTimePickerRetrait}
-              handleDatePickedRetrait={handleDatePickedRetrait}
-              hideDateTimePickerRetrait={hideDateTimePickerRetrait}
               typesCasier={typesCasier}
               setTypesCasier={setTypesCasier}
               typesCasierValue={typesCasierValue}
               setTypesCasierValue={setTypesCasierValue}
               lengthLockers={lengthLockers}
               getDataLocker={getDataLocker}
-              setLengthLockers={setLengthLockers}
               setGetDataLocker={setGetDataLocker}
+              setLengthLockers={setLengthLockers}
               setFinalPage={setFinalPage}
             />
           )}

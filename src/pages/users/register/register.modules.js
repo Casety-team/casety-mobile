@@ -9,7 +9,6 @@ export const Styles = StyleSheet.create({
   contentEllipse: {
     display: "flex",
     flexDirection: "row",
-    marginLeft: "46%",
   },
   svgRight: {
     marginRight: "2%",

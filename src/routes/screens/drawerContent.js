@@ -31,7 +31,7 @@ export function DrawerContent(props) {
             <DrawerItem
               label="Mes commandes"
               onPress={() => {
-                props.navigation.navigate("Market");
+                props.navigation.navigate("Basket");
               }}
             />
           </Drawer.Section>
