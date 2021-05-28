@@ -64,6 +64,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
   }, [locationsData != ""]);
 
   const handleShop = (price, name) => {
+    console.log(idLocal);
     axios
       .post("https://api.casety.fr/api/reservers", {
         date_start: depot,
@@ -81,6 +82,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
             navigation.navigate("Shop", {
               idReserver: item.data.id,
               idLocker: item.data.lockerId,
+              userId: idLocal,
               name,
               price,
             });

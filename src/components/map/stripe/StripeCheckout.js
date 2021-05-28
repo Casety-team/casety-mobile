@@ -17,7 +17,8 @@ export default class StripeCheckouts extends Component {
   }
 
   componentDidMount() {
-    const { idReserver, idLocker, nameProduct, unitAmount } = this.props;
+    const { idReserver, idLocker, userId, nameProduct, unitAmount } =
+      this.props;
     this.setState({ reserverId: idReserver });
     this.setState({ lockerId: idLocker });
 
@@ -31,7 +32,7 @@ export default class StripeCheckouts extends Component {
         nameProduct: nameProduct,
         unitAmount: unitAmount,
         quantity: 1,
-        userId: this.state.userId,
+        userId: userId,
         reservationId: idReserver,
       })
       .then((item) => {
