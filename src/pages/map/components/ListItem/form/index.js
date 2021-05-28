@@ -62,12 +62,12 @@ export default function ReserverForm({
     axios
       .get(`https://api.casety.fr/api/lockers/`)
       .then(async (res) => {
-        await res.data.map((data) => {
-          typesCasierValue.filter((type) => {
+        await res.data.mapLimit((data) => {
+          typesCasierValue.filter(async (type) => {
             if (type == "") {
               setTypesCasierValue(["init"]);
             } else if (data.locationId == getIdLocation) {
-              axios
+              await axios
                 .get(`https://api.casety.fr/api/locker_types/types/${type}`)
                 .then(async (items) => {
                   await setGetDataLocker(items.data);
@@ -176,7 +176,7 @@ export default function ReserverForm({
               onFocus={showDateTimePickerRetrait}
             />
             <DateTimePicker
-              //date={retrait ? new Date(retrait) : new Date()}
+              date={retrait ? new Date(retrait) : new Date()}
               isVisible={showRetrait}
               local="fr-FR"
               mode={"datetime"}

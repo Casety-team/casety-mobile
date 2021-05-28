@@ -31,8 +31,8 @@ export default class StripeCheckouts extends Component {
         nameProduct: nameProduct,
         unitAmount: unitAmount,
         quantity: 1,
+        userId: this.state.userId,
         reservationId: idReserver,
-        idUser: this.state.userId,
       })
       .then((item) => {
         console.log("Stripe Success");

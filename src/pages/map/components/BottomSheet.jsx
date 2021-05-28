@@ -107,9 +107,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
     var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
     setDepot(local);
     hideDateTimePickerDepot();
-    // setTimeout(() => {
-    //   hideDateTimePickerDepot();
-    // }, 250);
   };
 
   //Retrait
@@ -127,9 +124,6 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
     var local = moment(stillUtc).local().format("YYYY-MM-DD HH:mm:ss");
     setRetrait(local);
     hideDateTimePickerRetrait();
-    // setTimeout(() => {
-    //   hideDateTimePickerRetrait();
-    // }, 250);
   };
 
   return !getReset ? (
@@ -210,7 +204,7 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
       initialSnapIndex={1}
       renderHandle={() => <View style={[styles.header, { marginTop: 250 }]} />}
       data={locationsData}
-      keyExtractor={(i) => i.id}
+      keyExtractor={(i) => i.id.toString()}
       renderItem={({ item }) => (
         <View>
           <CodePage
