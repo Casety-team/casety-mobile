@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "test-casety",
-    "slug": "test-casety",
+    "name": "casety",
+    "slug": "casety",
+    "description": "casety app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/expo/icon.png",
@@ -16,7 +17,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mathieu.casety",
+      "bundleIdentifier": "com.app.appname",
       "buildNumber": "1.0.0",
       "config": {
         "googleMapsApiKey": "AIzaSyALm7PYEcroA7u6NsnbWlYbUwSfvkNj7gE"
@@ -26,6 +27,7 @@
       }
     },
     "android": {
+      "package": "com.app.appname",
       "adaptiveIcon": {
         "foregroundImage": "./assets/expo/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -35,9 +37,6 @@
           "apiKey": "AIzaSyALm7PYEcroA7u6NsnbWlYbUwSfvkNj7gE"
         }
       }
-    },
-    "web": {
-      "favicon": "./assets/expo/favicon.png"
     }
   }
 }

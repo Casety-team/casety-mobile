@@ -35,14 +35,6 @@ export function DrawerContent(props) {
               }}
             />
           </Drawer.Section>
-          <Drawer.Section style={styles.drawerSection}>
-            <DrawerItem
-              label="Support"
-              onPress={() => {
-                props.navigation.navigate("SupportScreen");
-              }}
-            />
-          </Drawer.Section>
         </View>
       </DrawerContentScrollView>
       <DrawerItem
