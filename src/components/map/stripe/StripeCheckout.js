@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import StripeCheckout from "react-native-stripe-checkout-webview";
 import deviceStorage from "../../../services/deviceStorage";
+import moment from "moment";
+import "moment/locale/fr";
 
 export default class StripeCheckouts extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ export default class StripeCheckouts extends Component {
   }
 
   componentDidMount() {
-    const { idReserver, idLocker, userId, nameProduct, unitAmount } =
+    const { idReserver, idLocker, userId, nameProduct, depot, retrait } =
       this.props;
     this.setState({ reserverId: idReserver });
     this.setState({ lockerId: idLocker });
@@ -26,11 +28,26 @@ export default class StripeCheckouts extends Component {
     deviceStorage
       .getMyObject()
       .then(async (item) => await this.setState({ userId: item.id }));
+    const startDate = moment(depot);
+    const timeEnd = moment(retrait);
+    const diff = timeEnd.diff(startDate);
+    const diffDuration = moment.duration(diff);
+    const hours = diffDuration.hours();
+    const days = diffDuration.days();
+
+    var count = 0;
+    if (days) {
+      for (var i = 0; i < days; i++) {
+        count += 24;
+      }
+    }
+    const r = hours + count;
+    const result = r + "00";
 
     axios
       .post("https://api.casety.fr/stripe/charge/", {
         nameProduct: nameProduct,
-        unitAmount: unitAmount,
+        unitAmount: result,
         quantity: 1,
         userId: userId,
         reservationId: idReserver,

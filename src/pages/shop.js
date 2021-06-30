@@ -1,18 +1,16 @@
 import React from "react";
 import StripeCheckouts from "../components/map/stripe/StripeCheckout";
 const Shop = ({ route, navigation }) => {
-  const { idReserver, idLocker, userId, name, price } = route.params;
-
-  const fullName = "Casier de " + name;
-  const total = parseInt(JSON.stringify(price).substring(0, 2) + "00");
+  const { idReserver, idLocker, userId, name, depot, retrait } = route.params;
 
   return (
     <StripeCheckouts
       idLocker={idLocker}
       idReserver={idReserver}
       userId={userId}
-      nameProduct={fullName}
-      unitAmount={total}
+      nameProduct={name}
+      depot={depot}
+      retrait={retrait}
       navigation={navigation}
     />
   );

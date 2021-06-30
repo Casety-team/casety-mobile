@@ -4,6 +4,8 @@ import { SvgXml } from "react-native-svg";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import ButtonCirle from "../../../../../components/Button";
 import { Styles } from "../ListItem.module";
+import moment from "moment";
+import "moment/locale/fr";
 
 import arrowBack from "../../../../../assets/app/arrow-back.svg";
 import profilCity from "./pictures/profilCity.jpeg";
@@ -30,6 +32,7 @@ export default function Market({
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   const [length, setLength] = useState("");
+  const [result, setResult] = useState("");
 
   useEffect(() => {
     axios.get(`https://api.casety.fr/api/locations/${idLocal}`).then((res) => {
@@ -47,6 +50,22 @@ export default function Market({
       setLength(item.length);
       setPrice(item.price);
     });
+    const startDate = moment(depot);
+    const timeEnd = moment(retrait);
+    const diff = timeEnd.diff(startDate);
+    const diffDuration = moment.duration(diff);
+    const hours = diffDuration.hours();
+    const days = diffDuration.days();
+
+    var count = 0;
+    if (days) {
+      for (var i = 0; i < days; i++) {
+        count += 24;
+      }
+    }
+    const r = hours + count;
+    const result = r;
+    setResult(result);
   }, []);
 
   return (
@@ -147,7 +166,7 @@ export default function Market({
           </Text>
           <View>
             <Text style={{ marginLeft: 168, fontSize: 12, color: "#ffffff" }}>
-              {price},00€
+              {result - 2},00€
             </Text>
           </View>
         </View>
@@ -172,7 +191,7 @@ export default function Market({
                 fontWeight: "bold",
               }}
             >
-              {price + 2},00€
+              {result},00€
             </Text>
           </View>
         </View>

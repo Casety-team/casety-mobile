@@ -83,7 +83,8 @@ export function BottomSheet({ getReset, onPressElement, navigation }) {
               idLocker: item.data.lockerId,
               userId: idLocal,
               name,
-              price,
+              depot: depot,
+              retrait: retrait,
             });
           });
       })
